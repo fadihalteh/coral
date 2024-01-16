@@ -6,7 +6,7 @@ import cors from 'cors';
 const app = express();
 const port = process.env.PORT || 3000;
 app.use(cors({
-  origin: 'https://coral-jfwb.onrender.com',
+  origin: '*',
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   credentials: true,  // enable set cookie
 }));

@@ -96,7 +96,7 @@ db.OrderRecipient.belongsTo(db.Order, { foreignKey:{ name: 'order_id', allowNull
 
 
 // Sync the s with the database
-db.sequelize.sync({ alter: true })
+db.sequelize.sync({ force: true })
     .then(() => {
         console.log('Database synchronization complete.');
     })
