@@ -3,29 +3,52 @@ module.exports = (sequelize, DataTypes) => {
        
         country: {
             type: DataTypes.STRING,
-        },
-        city: {
+            allowNull: false,
+           
+          },
+          city: {
             type: DataTypes.STRING,
-        },
-        street: {
+            allowNull: false,
+            
+          },
+          street: {
             type: DataTypes.STRING,
-        },
-        phone: {
+            allowNull: false,
+           
+          },
+          phone: {
             type: DataTypes.STRING,
-        },
-        address_line1: {
+            validate: {
+              is: {
+                args: /^(\d+-?\d+)$/, // Accepts "50559-5895" or "50559"
+                msg: 'Invalid phone format. Use "XXXXX-XXXX" or "XXXXX" format.',
+              },
+              len: {
+                args: [5, 15], // Minimum length 5, maximum length 15
+                msg: 'Phone must be between 5 and 15 characters.',
+              },
+            },
+          },
+          address_line1: {
             type: DataTypes.STRING,
-        },
-        address_line2: {
+            allowNull: false,
+            
+          },
+          address_line2: {
             type: DataTypes.STRING,
-        },
-        postal_code: {
+          },
+          postal_code: {
             type: DataTypes.STRING,
-        },
-        is_default: {
+            allowNull: false,
+          
+          },
+          is_default: {
             type: DataTypes.BOOLEAN,
-        },
-    });
+            
+}},{
+  timestamps: true,
+});
+          
 
     return Address;
 };

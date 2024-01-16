@@ -8,6 +8,8 @@ module.exports = (sequelize, DataTypes) => {
         is_default: {
             type: DataTypes.BOOLEAN,
         },
+    },{
+        timestamps: true,
     });
 
     return ProductImage;

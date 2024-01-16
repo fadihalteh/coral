@@ -8,12 +8,12 @@ module.exports = (sequelize, DataTypes) => {
         start_date: {
             type: DataTypes.STRING,
         },
-        end_date: {
+        expiry_date: {
             type: DataTypes.STRING,
         },
-        is_valid: {
-            type: DataTypes.BOOLEAN,
-        },
+        
+    },{
+        timestamps: true,
     });
 
     return Discount;

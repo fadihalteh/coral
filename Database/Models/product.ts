@@ -20,12 +20,26 @@ module.exports = (sequelize, DataTypes) => {
         price: {
             type: DataTypes.FLOAT,
             allowNull: false,
-        },
-        stock_quantity: {
+            validate: {
+              isFloat: {
+                args: [0.1], 
+                msg: 'Price must be a positive number', 
+              },
+            },
+          },
+          stock_quantity: {
             type: DataTypes.INTEGER,
             allowNull: false,
-        },
-    });
+            validate: {
+              isInt: {
+                min: 0, 
+                msg: 'Stock quantity must be a non-negative integer', 
+              },
+            },
+          },
+    },{
+      timestamps: true,
+  });
 
     return Product;
 };
