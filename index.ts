@@ -1,14 +1,14 @@
 import express from 'express';
-import usersRoute from './Routers/usersRoute';
-import addressesRoute from './Routers/addressesRoute';
-import reviewsRoute from './Routers/reviewsRoute';
-import productRoute from './Routers/productRoute';
-import categoryRoute from './Routers/categoryRoute';
-import brandRoute from './Routers/brandRoute';
-import searchSuggestionsRoute from './Routers/searchSuggestionsRoute';
-import wishlistRoute from './Routers/wishlistRoute';
-import ordersRoute from './Routers/ordersRoute';
-import shoppingCartRoute from './Routers/shoppingCartRoute';
+import usersRoute from './src/Routers/usersRoute';
+import addressesRoute from './src/Routers/addressesRoute';
+import reviewsRoute from './src/Routers/reviewsRoute';
+import productRoute from './src/Routers/productRoute';
+import categoryRoute from './src/Routers/categoryRoute';
+import brandRoute from './src/Routers/brandRoute';
+import searchSuggestionsRoute from './src/Routers/searchSuggestionsRoute';
+// import wishlistRoute from './Routers/wishlistRoute';
+import ordersRoute from './src/Routers/ordersRoute';
+import shoppingCartRoute from './src/Routers/shoppingCartRoute';
 
 
 import cors from 'cors';
@@ -29,7 +29,7 @@ app.use('/products', productRoute);
 app.use('/category', categoryRoute);
 app.use('/brand', brandRoute);
 app.use('/search-suggestions', searchSuggestionsRoute);
-app.use('/wishlist', wishlistRoute);
+// app.use('/wishlist', wishlistRoute);
 app.use('/orders', ordersRoute);
 app.use('/shopping-cart', shoppingCartRoute);
 

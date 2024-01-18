@@ -28,71 +28,71 @@ const db:any = {};
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
-db.User = require('./user.ts')(sequelize, DataTypes);
-db.Address = require('./address.ts')(sequelize, DataTypes);
-db.Review = require('./review.ts')(sequelize, DataTypes);
-db.Product = require('./product.ts')(sequelize, DataTypes);
-db.Wishlist = require('./wishlist.ts')(sequelize, DataTypes);
-db.Category = require('./category.ts')(sequelize, DataTypes);
-db.Brand = require('./brand.ts')(sequelize, DataTypes);
-db.Order = require('./order.ts')(sequelize, DataTypes);
-db.OrderItem = require('./orderItem.ts')(sequelize, DataTypes);
-db.Discount = require('./discount.ts')(sequelize, DataTypes);
-db.ProductImage = require('./productImage.ts')(sequelize, DataTypes);
-db.ShoppingCart = require('./shoppingCart.ts')(sequelize, DataTypes);
-db.Session = require('./session.ts')(sequelize, DataTypes);
-db.OrderRecipient = require('./OrderRecipient.ts')(sequelize, DataTypes);
+db.users = require('./user.ts')(sequelize, DataTypes);
+db.addresses = require('./address.ts')(sequelize, DataTypes);
+db.reviews = require('./review.ts')(sequelize, DataTypes);
+db.products= require('./product.ts')(sequelize, DataTypes);
+db.wishlists = require('./wishlist.ts')(sequelize, DataTypes);
+db.categories = require('./category.ts')(sequelize, DataTypes);
+db.brands = require('./brand.ts')(sequelize, DataTypes);
+db.orders = require('./order.ts')(sequelize, DataTypes);
+db.ordersItems = require('./orderItem.ts')(sequelize, DataTypes);
+db.discounts = require('./discount.ts')(sequelize, DataTypes);
+db.productsImages = require('./productImage.ts')(sequelize, DataTypes);
+db.shoppingCarts = require('./shoppingCart.ts')(sequelize, DataTypes);
+db.sessions = require('./session.ts')(sequelize, DataTypes);
+db.ordersRecipients = require('./OrderRecipient.ts')(sequelize, DataTypes);
 
 // User relations
-db.Address.belongsTo(db.User, { foreignKey:{ name:'user_id', allowNull: false }});
-db.Review.belongsTo(db.User, { foreignKey:{ name: 'user_id', allowNull: false }});
-db.Session.belongsTo(db.User, { foreignKey:{ name: 'user_id', allowNull: false }});
-db.Order.belongsTo(db.User, { foreignKey:{ name: 'user_id', allowNull: false }});
-db.ShoppingCart.belongsTo(db.User, { foreignKey:{ name: 'user_id', allowNull: false }});
-db.Wishlist.belongsTo(db.User, { foreignKey:{ name: 'user_id', allowNull: false }});
+db.addresses.belongsTo(db.users, { foreignKey:{ name:'user_id', allowNull: false }});
+db.reviews.belongsTo(db.users, { foreignKey:{ name: 'user_id', allowNull: false }});
+db.sessions.belongsTo(db.users, { foreignKey:{ name: 'user_id', allowNull: false }});
+db.orders.belongsTo(db.users, { foreignKey:{ name: 'user_id', allowNull: false }});
+db.shoppingCarts.belongsTo(db.users, { foreignKey:{ name: 'user_id', allowNull: false }});
+db.wishlists.belongsTo(db.users, { foreignKey:{ name: 'user_id', allowNull: false }});
 
 
-db.User.hasMany(db.Address, { foreignKey:{ name:'user_id', allowNull: false }});
-db.User.hasMany(db.Review, { foreignKey:{ name:'user_id', allowNull: false }});
-db.User.hasMany(db.Session, { foreignKey:{ name:'user_id', allowNull: false }});
-db.User.hasMany(db.Order, { foreignKey:{ name:'user_id', allowNull: false }});
-db.User.hasOne(db.ShoppingCart, { foreignKey:{ name:'user_id', allowNull: false }});
-db.User.hasOne(db.Wishlist, { foreignKey:{ name:'user_id', allowNull: false }});
+db.users.hasMany(db.addresses, { foreignKey:{ name:'user_id', allowNull: false }});
+db.users.hasMany(db.reviews, { foreignKey:{ name:'user_id', allowNull: false }});
+db.users.hasMany(db.sessions, { foreignKey:{ name:'user_id', allowNull: false }});
+db.users.hasMany(db.orders, { foreignKey:{ name:'user_id', allowNull: false }});
+db.users.hasOne(db.shoppingCarts, { foreignKey:{ name:'user_id', allowNull: false }});
+db.users.hasOne(db.wishlists, { foreignKey:{ name:'user_id', allowNull: false }});
 
 //product relations
 
 
-db.Review.belongsTo(db.Product, { foreignKey:{ name: 'product_id', allowNull: false }});
-db.ProductImage.belongsTo(db.Product, { foreignKey:{ name: 'product_id', allowNull: false }});
-db.OrderItem.belongsTo(db.Product, { foreignKey:{ name: 'product_id', allowNull: false }});
-db.ShoppingCart.belongsTo(db.Product, { foreignKey:{ name: 'product_id', allowNull: false }});
-db.Wishlist.belongsTo(db.Product, { foreignKey:{ name: 'product_id', allowNull: false }});
+db.reviews.belongsTo(db.products, { foreignKey:{ name: 'product_id', allowNull: false }});
+db.productsImages.belongsTo(db.products, { foreignKey:{ name: 'product_id', allowNull: false }});
+db.ordersItems.belongsTo(db.products, { foreignKey:{ name: 'product_id', allowNull: false }});
+db.shoppingCarts.belongsTo(db.products, { foreignKey:{ name: 'product_id', allowNull: false }});
+db.wishlists.belongsTo(db.products, { foreignKey:{ name: 'product_id', allowNull: false }});
 
 
 
-db.Product.hasMany(db.ProductImage, { foreignKey:{ name: 'product_id', allowNull: false }});
-db.Product.hasMany(db.Review, { foreignKey:{ name: 'product_id', allowNull: false }});
-db.Product.hasMany(db.OrderItem, { foreignKey:{ name: 'product_id', allowNull: false }});
-db.Product.hasMany(db.ShoppingCart, { foreignKey:{ name: 'product_id', allowNull: false }});
-db.Product.hasMany(db.Wishlist, { foreignKey:{ name: 'product_id', allowNull: false }});
+db.products.hasMany(db.productsImages, { foreignKey:{ name: 'product_id', allowNull: false }});
+db.products.hasMany(db.reviews, { foreignKey:{ name: 'product_id', allowNull: false }});
+db.products.hasMany(db.ordersItems, { foreignKey:{ name: 'product_id', allowNull: false }});
+db.products.hasMany(db.shoppingCarts, { foreignKey:{ name: 'product_id', allowNull: false }});
+db.products.hasMany(db.wishlists, { foreignKey:{ name: 'product_id', allowNull: false }});
 
 
 
-db.Product.belongsTo(db.Discount, { foreignKey:{ name: 'discount_id'}});
-db.Product.belongsTo(db.Brand, { foreignKey:{ name: 'brand_id', allowNull: false }});
-db.Product.belongsTo(db.Category, { foreignKey:{ name: 'category_id', allowNull: false }});
+db.products.belongsTo(db.discounts, { foreignKey:{ name: 'discount_id'}});
+db.products.belongsTo(db.brands, { foreignKey:{ name: 'brand_id', allowNull: false }});
+db.products.belongsTo(db.categories, { foreignKey:{ name: 'category_id', allowNull: false }});
 
 
-db.Discount.hasMany(db.Product, { foreignKey:{ name: 'discount_id' }});
-db.Brand.hasMany(db.Product, { foreignKey:{ name: 'brand_id', allowNull: false }});
-db.Category.hasMany(db.Product, { foreignKey:{ name: 'category_id', allowNull: false }});
+db.discounts.hasMany(db.products, { foreignKey:{ name: 'discount_id' }});
+db.brands.hasMany(db.products, { foreignKey:{ name: 'brand_id', allowNull: false }});
+db.categories.hasMany(db.products, { foreignKey:{ name: 'category_id', allowNull: false }});
 
 //order relations
-db.Order.hasMany(db.OrderItem, { foreignKey:{ name: 'order_id', allowNull: false }});
-db.Order.hasOne(db.OrderRecipient, { foreignKey:{ name: 'order_id', allowNull: false }});
+db.orders.hasMany(db.ordersItems, { foreignKey:{ name: 'order_id', allowNull: false }});
+db.orders.hasOne(db.ordersRecipients, { foreignKey:{ name: 'order_id', allowNull: false }});
 
-db.OrderItem.belongsTo(db.Order, { foreignKey:{ name: 'order_id', allowNull: false }});
-db.OrderRecipient.belongsTo(db.Order, { foreignKey:{ name: 'order_id', allowNull: false }});
+db.ordersItems.belongsTo(db.orders, { foreignKey:{ name: 'order_id', allowNull: false }});
+db.ordersRecipients.belongsTo(db.orders, { foreignKey:{ name: 'order_id', allowNull: false }});
 
 
 // Sync the s with the database

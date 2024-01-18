@@ -1,22 +1,15 @@
 module.exports = (sequelize, DataTypes) => {
-    const Session = sequelize.define("Session", {
-        
-        session_key: {
+    const Brand = sequelize.define("Brand", {
+        name: {
             type: DataTypes.STRING,
             allowNull: false,
             unique: true,
-
         },
-        expiry_date:{
+        logo: {
             type: DataTypes.STRING,
-            allowNull: false,
         },
-   
     }, {
         timestamps: true,
-    
-
     });
-
-    return Session;
+    return Brand;
 };

@@ -1,5 +1,5 @@
 import {  Request,Response ,NextFunction} from 'express';
-const db = require('../models/index.ts');
+const db = require('../Database/Models/index');
 import Joi from 'joi'
 
  interface User {
@@ -16,34 +16,17 @@ import Joi from 'joi'
   }
    interface err<T> extends Response {}
 
-  const passwordSchema=Joi.string().regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/).required().min(8).max(254)
 
-  const baseSchema = {
-    username: Joi.string().min(3).max(50),
-    email: Joi.string().email().min(5).max(254),
-    password:passwordSchema,
-  };
+   const reviewSchema = Joi.object({
+    comment: Joi.string().min(1).max(400),
+    rating: Joi.number().integer().min(1).max(5),
+   })
   
-  const createUserSchema = Joi.object({
-    ...baseSchema,
-  });
-  
-  const loginSchema = Joi.object({
-    ...baseSchema,
-  }).or('username', 'email')
-  
-  const changePasswordSchema = Joi.object({
-    ...baseSchema,
-    newPassword: passwordSchema
-  }).or('username', 'email').with('password', 'newPassword');
-  
-  
-  
-  
+
   
   export const postReview = async (req, res: Response):Promise<session| err<string>> => {
     try {
-      const { error, value } = createUserSchema.validate(req.body);
+      const { error, value } = reviewSchema.validate(req.body);
       if (error) {
         return res.status(400).json({ error: error.details[0].message });
       }
@@ -67,13 +50,11 @@ import Joi from 'joi'
 
   export const updateReview = async (req, res: Response):Promise<session| err<string>> => {
     try {
-      const { error, value } = createUserSchema.validate(req.body);
+      const { error, value } = reviewSchema.validate(req.body);
       if (error) {
         return res.status(400).json({ error: error.details[0].message });
       }
-      const { rating,comment } = value;
       const product_id = req.params.product_id;
-
       const existingProduct= await db.products.findOne({ where: { product_id, } });
       if (!existingProduct) {
         return res.status(404).json({ error: 'product not found' });
@@ -83,7 +64,7 @@ import Joi from 'joi'
         return res.status(404).json({ error: 'user review for this product not found' });
       }
     
-      const newReview = await db.reviews.update({ rating, comment },{ where: {user_id: req.session.user_id, product_id }});
+      const newReview = await db.reviews.update(value,{ where: {user_id: req.session.user_id, product_id }});
       return res.status(200).json(newReview);
     } 
       catch (error) {
@@ -95,13 +76,8 @@ import Joi from 'joi'
 
   export const deleteReview = async (req, res: Response):Promise<session| err<string>> => {
     try {
-      const { error, value } = createUserSchema.validate(req.body);
-      if (error) {
-        return res.status(400).json({ error: error.details[0].message });
-      }
-      const { rating,comment } = value;
+     
       const product_id = req.params.product_id;
-
       const existingProduct= await db.products.findOne({ where: { product_id, } });
       if (!existingProduct) {
         return res.status(404).json({ error: 'product not found' });
@@ -112,7 +88,7 @@ import Joi from 'joi'
       }
     
       const newReview = await db.reviews.destroy({ where: {user_id: req.session.user_id, product_id }});
-      return res.status(200).json(newReview);
+      return res.status(200).json(true);
     } 
       catch (error) {
       console.error(error);
@@ -131,3 +107,5 @@ import Joi from 'joi'
       return res.status(500).json({ error: 'Internal Server Error' });
     }
   };
+
+  
