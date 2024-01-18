@@ -8,17 +8,45 @@ function generateOrderNumber() {
 }
 
 
+// const generateFakeCategories = () => {
+//   return {
+//     name: faker.commerce.department(),
+//   };
+// };
+
+// const generateFakeBrands = () => {
+//   return {
+//     name: faker.company.companyName(),
+//   };
+// };
+
+const usedCategoryNames = new Set();
+const usedBrandNames = new Set();
+
+const generateUniqueName = (usedNames, nameGenerator) => {
+  let name;
+  do {
+    name = nameGenerator();
+  } while (usedNames.has(name));
+
+  usedNames.add(name);
+
+  return name;
+};
+
 const generateFakeCategories = () => {
   return {
-    name: faker.commerce.department(),
+    name: generateUniqueName(usedCategoryNames, () => faker.commerce.department()),
   };
 };
 
 const generateFakeBrands = () => {
   return {
-    name: faker.company.companyName(),
+    name: generateUniqueName(usedBrandNames, () => faker.company.companyName()),
   };
 };
+
+
 
 const generateFakeDiscount = () => {
   return {
@@ -114,12 +142,12 @@ const generateFakeUser = () => {
 
 
       // Generate and insert fake data for Brands
-      const fakeBrands = Array.from({ length: 40 }, () => generateFakeBrands());
+      const fakeBrands = Array.from({ length: 10 }, () => generateFakeBrands());
       const createdBrands = await db.brands.bulkCreate(fakeBrands, { returning: true });
 
 
       // Generate and insert fake data for Categorie
-      const fakeCategories = Array.from({ length: 20 }, () => generateFakeCategories());
+      const fakeCategories = Array.from({ length: 10 }, () => generateFakeCategories());
       const createdCategories= await db.categories.bulkCreate(fakeCategories, { returning: true });
 
 
