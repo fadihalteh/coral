@@ -12,7 +12,7 @@ const bcrypt = require('bcrypt');
   
   interface session {
     id?:number;
-    sessionId: string;
+    session: string;
     user_id:number
   }
    interface err<T> extends Response {}
@@ -27,7 +27,6 @@ const bcrypt = require('bcrypt');
   
   const createUserSchema = Joi.object({
     ...baseSchema,
-    confirmPassword: passwordSchema
   });
   
   const loginSchema = Joi.object({
@@ -59,10 +58,8 @@ const bcrypt = require('bcrypt');
       if (error) {
         return res.status(400).json({ error: error.details[0].message });
       }
-      const { username, email, password,confirmPassword } = value;
-      if(password !==confirmPassword){
-        return res.status(400).json({ error: 'Passwords do not match' });
-      }
+      const { username, email, password,first_name,last_name,mobile,birth_date } = value;
+      
       const existingEmail = await db.users.findOne({ where: { email } });
       if (existingEmail) {
         return res.status(400).json({ error: 'Email already in Use' });
@@ -72,9 +69,9 @@ const bcrypt = require('bcrypt');
         return res.status(400).json({ error: 'Username already in Use' });
       }
       const hashedPassword = await bcrypt.hash(password, 10);
-      const newUser = await db.users.create({ username, email, password:hashedPassword  })as User;
-      const sessionId = generateRandomString(20);
-      const newSession = await db.sessions.create({  "user_id": newUser.id,sessionId  })as session;
+      const newUser = await db.users.create({ username, email, password:hashedPassword,first_name,last_name,mobile,birth_date })as User;
+      const session = generateRandomString(30);
+      const newSession = await db.sessions.create({  "user_id": newUser.id,session  })as session;
       return res.status(200).json(newSession);
     } 
       catch (error) {
@@ -117,8 +114,8 @@ const bcrypt = require('bcrypt');
         return res.status(400).json({ error: 'Password is incorrect' });
       }
     
-      const sessionId = generateRandomString(20);
-      const newSession = await db.sessions.create({  "user_id": user.id,sessionId  });
+      const session = generateRandomString(20);
+      const newSession = await db.sessions.create({  "user_id": user.id,session  });
       return res.status(200).json(newSession);
     } catch (error) {
       console.error(error);
@@ -129,8 +126,7 @@ const bcrypt = require('bcrypt');
 
   export const logoutUser = async (req, res: Response):Promise<boolean| err<string>> => {
     try {
-      let sessionId = req.session.sessionId;
-      const deletedSession = await db.sessions.destroy({ where: { sessionId } });
+      const deletedSession = await db.sessions.destroy({ where: { session:req.session.session } });
       return res.status(200).json(true);
     } catch (error) {
       console.error(error);
@@ -142,9 +138,9 @@ const bcrypt = require('bcrypt');
   
 export const checkSessionId = async (req, res: Response, next: NextFunction):Promise<void| err<string>> => {
   try {
-    const sessionId = req.headers['authorization'] as string;
+    const session = req.headers['authorization'] as string;
 
-    if (!sessionId) {
+    if (!session) {
       return res.status(401).json({ error: 'Session ID is missing in the headers.' });
     }
 
@@ -194,9 +190,7 @@ export const changePassword = async (req, res: Response):Promise<boolean| err<st
       if (!user) {
         return res.status(400).json({ error: 'User with this Email/Username doesn\'t exist' });
       }
-      if(req.session["user_id"]!==user.id){
-        return res.status(400).json({ error: 'session ID doesn\'t match Email ' });
-      }
+     
       let matchPassword=await bcrypt.compare(password, user.password)
       if (!matchPassword) {
         return res.status(400).json({ error: 'Password is incorrect' });
@@ -214,6 +208,58 @@ export const changePassword = async (req, res: Response):Promise<boolean| err<st
       await db.sessions.destroy({ where: { user_id: user.id } });
   
       return res.status(200).json(true);
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ error: 'Internal Server Error' });
+    }
+  };
+
+  export const changeUsername = async (req, res: Response):Promise<boolean| err<string>> => {
+    try {
+      // Validate the new password (you can use your own validation logic)
+      const { error, value } = changePasswordSchema.validate(req.body)
+  
+      if (error) {
+        return res.status(400).json({ error: error.details[0].message });
+      }
+  
+      const { newUsername } = value;
+    
+      await db.users.update({ username: newUsername }, { where: { id: req.session.user_id } });
+    
+      return res.status(200).json(true);
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ error: 'Internal Server Error' });
+    }
+  };
+
+
+  export const getUserDetails = async (req, res: Response):Promise<boolean| err<string>> => {
+    try {
+      const user = await db.users.findOne({ where: { id: req.session.user_id  } });
+      return res.status(200).json(user);
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ error: 'Internal Server Error' });
+    }
+  };
+  
+  export const updateUserDetails = async (req, res: Response):Promise<boolean| err<string>> => {
+    try {
+      const user = await db.users.update({ where: { id: req.session.user_id  } });
+      return res.status(200).json(user);
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ error: 'Internal Server Error' });
+    }
+  };
+  
+
+  export const deleteUserAccount = async (req, res: Response):Promise<boolean| err<string>> => {
+    try {
+      const user = await db.users.destroy({ where: { id: req.session.user_id  } });
+      return res.status(200).json(user);
     } catch (error) {
       console.error(error);
       return res.status(500).json({ error: 'Internal Server Error' });

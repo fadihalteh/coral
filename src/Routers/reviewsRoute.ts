@@ -1,8 +1,13 @@
 import express from 'express';
-import {} from '../Controllers/reviewController';
+import {getAllUserReviews,postReview,updateReview,deleteReview} from '../Controllers/reviewController';
 const router = express.Router();
 
-router.get('/', );
+
+
+router.post('/:productId',postReview);
+router.put('/:productId',updateReview);
+router.delete('/:productId',deleteReview);
+router.get('/',getAllUserReviews );
 
 
 export default router
