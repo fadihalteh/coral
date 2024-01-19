@@ -1,32 +1,32 @@
-// const dbConfig = require('../config/dbConfig.ts');
+const dbConfig = require('../config/dbConfig.ts');
 import { Sequelize, DataTypes, Dialect } from 'sequelize';
 
-// const sequelize = new Sequelize(
-//     dbConfig.DB,
-//     dbConfig.USER,
-//     dbConfig.PASSWORD, {
-//         host: dbConfig.HOST,
-//         dialect: dbConfig.dialect as Dialect,
-//         define: { timestamps: false },
-//         pool: {
-//             max: dbConfig.pool.max,
-//             min: dbConfig.pool.min,
-//         },
-//     }
-// );
-export const sequelize = new Sequelize(
-    process.env.mysql_database as string,
-    process.env.mysql_username as string,
-    process.env.mysql_password,
-    {
-      host: process.env.mysql_host,
-      dialect: "mysql",
-      pool: {
-        max: 10,
-        min: 1,
-      },
+const sequelize = new Sequelize(
+    dbConfig.DB,
+    dbConfig.USER,
+    dbConfig.PASSWORD, {
+        host: dbConfig.HOST,
+        dialect: dbConfig.dialect as Dialect,
+        define: { timestamps: false },
+        pool: {
+            max: dbConfig.pool.max,
+            min: dbConfig.pool.min,
+        },
     }
-  );
+);
+// export const sequelize = new Sequelize(
+//     process.env.mysql_database as string,
+//     process.env.mysql_username as string,
+//     process.env.mysql_password,
+//     {
+//       host: process.env.mysql_host,
+//       dialect: "mysql",
+//       pool: {
+//         max: 10,
+//         min: 1,
+//       },
+//     }
+//   );
   
 sequelize.authenticate()
     .then(() => {
@@ -41,19 +41,19 @@ const db:any = {};
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
-db.users = require('./user.ts')(sequelize, DataTypes);
-db.addresses = require('./address.ts')(sequelize, DataTypes);
-db.reviews = require('./review.ts')(sequelize, DataTypes);
-db.products = require('./product.ts')(sequelize, DataTypes);
-db.wishlists = require('./wishlist.ts')(sequelize, DataTypes);
-db.categories = require('./category.ts')(sequelize, DataTypes);
-db.brands = require('./brand.ts')(sequelize, DataTypes);
-db.orders = require('./order.ts')(sequelize, DataTypes);
-db.ordersItems = require('./orderItem.ts')(sequelize, DataTypes);
-db.discounts = require('./discount.ts')(sequelize, DataTypes);
-db.productsImages = require('./productImage.ts')(sequelize, DataTypes);
-db.shoppingCarts = require('./shoppingCart.ts')(sequelize, DataTypes);
-db.sessions = require('./session.ts')(sequelize, DataTypes);
+db.users = require('./user')(sequelize, DataTypes);
+db.addresses = require('./address')(sequelize, DataTypes);
+db.reviews = require('./review')(sequelize, DataTypes);
+db.products = require('./product')(sequelize, DataTypes);
+db.wishlists = require('./wishlist')(sequelize, DataTypes);
+db.categories = require('./category')(sequelize, DataTypes);
+db.brands = require('./brand')(sequelize, DataTypes);
+db.orders = require('./order')(sequelize, DataTypes);
+db.ordersItems = require('./orderItem')(sequelize, DataTypes);
+db.discounts = require('./discount')(sequelize, DataTypes);
+db.productsImages = require('./productImage')(sequelize, DataTypes);
+db.shoppingCarts = require('./shoppingCart')(sequelize, DataTypes);
+db.sessions = require('./session')(sequelize, DataTypes);
 // db.ordersRecipients = require('./OrderRecipient.ts')(sequelize, DataTypes);
 
 // User relations
