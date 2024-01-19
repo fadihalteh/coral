@@ -54,7 +54,7 @@ db.discounts = require('./discount.ts')(sequelize, DataTypes);
 db.productsImages = require('./productImage.ts')(sequelize, DataTypes);
 db.shoppingCarts = require('./shoppingCart.ts')(sequelize, DataTypes);
 db.sessions = require('./session.ts')(sequelize, DataTypes);
-db.ordersRecipients = require('./OrderRecipient.ts')(sequelize, DataTypes);
+// db.ordersRecipients = require('./OrderRecipient.ts')(sequelize, DataTypes);
 
 // User relations
 db.addresses.belongsTo(db.users, { foreignKey:{ name:'user_id', allowNull: false }});
@@ -102,10 +102,14 @@ db.categories.hasMany(db.products, { foreignKey:{ name: 'category_id', allowNull
 
 //order relations
 db.orders.hasMany(db.ordersItems, { foreignKey:{ name: 'order_id', allowNull: false }});
-db.orders.hasOne(db.ordersRecipients, { foreignKey:{ name: 'order_id', allowNull: false }});
+db.orders.belongsTo(db.addresses, { foreignKey:{ name: 'address_id', allowNull: false }});
+
+// db.orders.hasOne(db.ordersRecipients, { foreignKey:{ name: 'order_id', allowNull: false }});
 
 db.ordersItems.belongsTo(db.orders, { foreignKey:{ name: 'order_id', allowNull: false }});
-db.ordersRecipients.belongsTo(db.orders, { foreignKey:{ name: 'order_id', allowNull: false }});
+db.addresses.hasMany(db.orders, { foreignKey:{ name: 'address_id', allowNull: false }});
+
+// db.ordersRecipients.belongsTo(db.orders, { foreignKey:{ name: 'order_id', allowNull: false }});
 
 
 // Sync the s with the database
