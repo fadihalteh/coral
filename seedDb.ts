@@ -1,5 +1,5 @@
 
-const db = require('./src/Database/Models/index.ts');
+const db = require('./src/Database/Models/index');
 const faker = require('faker');
 
 function generateOrderNumber() {
