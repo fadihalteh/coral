@@ -1,6 +1,6 @@
 
 import { Request, Response } from 'express';
-const db = require('../database/models/index.ts');
+const db = require('../Database/Models/index.ts');
 
 
 export const getAllBrands = async (_req: Request, res: Response) => {

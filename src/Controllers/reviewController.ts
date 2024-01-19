@@ -1,5 +1,5 @@
 import {  Request,Response ,NextFunction} from 'express';
-const db = require('../database/models/index');
+const db = require('../Database/Models/index');
 import Joi from 'joi'
 
  interface User {

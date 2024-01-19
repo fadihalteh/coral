@@ -1,5 +1,5 @@
 import express from 'express';
-import {getAllUserReviews,postReview,updateReview,deleteReview} from '../controllers/reviewController';
+import {getAllUserReviews,postReview,updateReview,deleteReview} from '../Controllers/reviewController';
 const router = express.Router();
 
 
