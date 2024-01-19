@@ -2,12 +2,12 @@ module.exports = (sequelize, DataTypes) => {
     const Discount = sequelize.define("Discount", {
       
         percentage: {
-            type: DataTypes.FLOAT,
+            type: DataTypes.INTEGER,
             allowNull: false,
             validate: {
-              isFloat: true,
+            //   isFloat: true,
               min: 0,
-              max: 1,
+              max: 100,
             },
           
         },

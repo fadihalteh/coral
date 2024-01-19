@@ -4,7 +4,7 @@ const db = require('../Database/Models/index.ts');
 
 export const getAllCategories = async (_req: Request, res: Response) => {
     try {
-      const categories = await db.Category.findAll();
+      const categories = await db.categories.findAll();
       return res.status(200).json(categories);
     } catch (error) {
       console.error(error);

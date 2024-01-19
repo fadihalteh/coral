@@ -1,32 +1,32 @@
 const dbConfig = require('../config/dbConfig.ts');
 import { Sequelize, DataTypes, Dialect } from 'sequelize';
 
-// const sequelize = new Sequelize(
-//     dbConfig.DB,
-//     dbConfig.USER,
-//     dbConfig.PASSWORD, {
-//         host: dbConfig.HOST,
-//         dialect: dbConfig.dialect as Dialect,
-//         define: { timestamps: false },
-//         pool: {
-//             max: dbConfig.pool.max,
-//             min: dbConfig.pool.min,
-//         },
-//     }
-// );
-export const sequelize = new Sequelize(
-    process.env.mysql_database as string,
-    process.env.mysql_username as string,
-    process.env.mysql_password,
-    {
-      host: process.env.mysql_host,
-      dialect: "mysql",
-      pool: {
-        max: 10,
-        min: 1,
-      },
+const sequelize = new Sequelize(
+    dbConfig.DB,
+    dbConfig.USER,
+    dbConfig.PASSWORD, {
+        host: dbConfig.HOST,
+        dialect: dbConfig.dialect as Dialect,
+        define: { timestamps: false },
+        pool: {
+            max: dbConfig.pool.max,
+            min: dbConfig.pool.min,
+        },
     }
-  );
+);
+// export const sequelize = new Sequelize(
+//     process.env.mysql_database as string,
+//     process.env.mysql_username as string,
+//     process.env.mysql_password,
+//     {
+//       host: process.env.mysql_host,
+//       dialect: "mysql",
+//       pool: {
+//         max: 10,
+//         min: 1,
+//       },
+//     }
+//   );
   
 sequelize.authenticate()
     .then(() => {
@@ -109,7 +109,7 @@ db.ordersRecipients.belongsTo(db.orders, { foreignKey:{ name: 'order_id', allowN
 
 
 // Sync the s with the database
-db.sequelize.sync({ force: true })
+db.sequelize.sync({ alter: true })
     .then(() => {
         console.log('Database synchronization complete.');
     })

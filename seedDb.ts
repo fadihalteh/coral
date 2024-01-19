@@ -7,50 +7,183 @@ function generateOrderNumber() {
     return `#${String(randomNumber).padStart(9, '0')}`; 
 }
 
-
+const commonCategories = [
+  "Handbags",
+  "Watches",
+  "Skincare",
+  "Jewelry",
+  "Apparels",
+  "Personal Care",
+  "Sun Glasses",
+  "Wrist Watches",
+  "Eye Wear",
+  "Electronics",
+  "Home Decor",
+  "Footwear",
+  "Fitness Equipment",
+  "Toys and Games",
+  "Books",
+  "Kitchen Appliances",
+  "Furniture",
+  "Sports Gear",
+  "Music Instruments",
+  "Garden Supplies",
+  "Pet Care",
+  "Travel Accessories",
+  "Stationery",
+  "Art and Craft",
+  "Automotive",
+  "Baby Products",
+  "Camping Gear",
+  "Outdoor Clothing",
+  "Party Supplies",
+  "Tech Gadgets",
+  "Candles and Fragrances",
+  "Beauty",
+  "Health",
+  "Office Supplies",
+  "Gifts",
+  "Food and Beverages",
+  "Electrical Tools",
+  "Home Improvement",
+  "Smart Home Devices",
+  "DIY Crafts",
+];
+const commonBrands = [
+  "Zara",
+  "Prada",
+  "H&M",
+  "Dolce & Gabbana",
+  "Chanel",
+  "Biba",
+  "Nike",
+  "Adidas",
+  "Apple",
+  "Samsung",
+  "Sony",
+  "Microsoft",
+  "Toyota",
+  "Honda",
+  "Ford",
+  "Coca-Cola",
+  "Pepsi",
+  "Amazon",
+  "Google",
+  "Facebook",
+  "Twitter",
+  "Instagram",
+  "L'Oreal",
+  "Maybelline",
+  "Colgate",
+  "Nestle",
+  "Puma",
+  "Reebok",
+  "Levis",
+  "Ray-Ban",
+  "Canon",
+  "Nikon",
+  "Dell",
+  "Lenovo",
+  "HP",
+  "Asus",
+  "Casio",
+  "LG",
+  "Panasonic",
+  "Hewlett-Packard",
+  "Bosch",
+  "Siemens",
+  "Gillette",
+  "Mango",
+  "Forever 21",
+  "Gap",
+  "Under Armour",
+  "Hugo Boss",
+  "Calvin Klein",
+  "Lacoste",
+  "Ralph Lauren",
+  "Tommy Hilfiger",
+  "Timberland",
+  "Converse",
+  "Vans",
+  "Gucci",
+  "Versace",
+  "Louis Vuitton",
+  "Fendi",
+  "Balenciaga",
+  "Yves Saint Laurent",
+  "Givenchy",
+  "Prabal Gurung",
+  "Valentino",
+  "Burberry",
+  "Michael Kors",
+  "Coach",
+  "Dior",
+  "Christian Louboutin",
+  "Alexander McQueen",
+  "Bottega Veneta",
+  "Jimmy Choo",
+  "Marc Jacobs",
+  "Stella McCartney",
+  "Tiffany & Co.",
+  "Hermès",
+  "Chloé",
+  "Celine",
+  "Swarovski",
+  "Rolex",
+  "Cartier",
+  "Omega",
+  "Tag Heuer",
+  "Fossil",
+  "Guess",
+  "Michael Michael Kors",
+  "Tom Ford",
+  "Balmain",
+  "Topshop",
+  "Lululemon",
+  "Uniqlo",
+  "Victoria's Secret",
+  "Abercrombie & Fitch",
+  "Aldo",
+  "Bershka",
+  "Boohoo",
+  "Diesel",
+  "Ecco",
+  "Fila",
+  "Gap Kids",
+  "Abercrombie Kids",
+  "Justice",
+  "Old Navy",
+  "Primark",
+  "Superdry",
+  "Swatch",
+];
 // const generateFakeCategories = () => {
 //   return {
-//     name: faker.commerce.department(),
+//     // name: faker.commerce.department(),
+//     name:faker.random.arrayElement(commonCategories),
 //   };
 // };
 
 // const generateFakeBrands = () => {
 //   return {
-//     name: faker.company.companyName(),
+//     // name: faker.company.companyName(),
+//     name:faker.random.arrayElement(commonBrands),
 //   };
 // };
 
-const usedCategoryNames = new Set();
-const usedBrandNames = new Set();
+const generateFakeCategory = (name) => ({ name });
 
-const generateUniqueName = (usedNames, nameGenerator) => {
-  let name;
-  do {
-    name = nameGenerator();
-  } while (usedNames.has(name));
+// Function to generate a fake brand
+const generateFakeBrand = (name) => ({ name });
 
-  usedNames.add(name);
-
-  return name;
-};
-
-const generateFakeCategories = () => {
-  return {
-    name: generateUniqueName(usedCategoryNames, () => faker.commerce.department()),
-  };
-};
-
-const generateFakeBrands = () => {
-  return {
-    name: generateUniqueName(usedBrandNames, () => faker.company.companyName()),
-  };
-};
-
-
+// Generate fake categories and brands
+const fakeCategories = commonCategories.map(generateFakeCategory);
+const fakeBrands = commonBrands.map(generateFakeBrand);
 
 const generateFakeDiscount = () => {
   return {
-    percentage: faker.number.float({ min: 0, max: 1, precision: 0.01 }),
+     percentage:  faker.random.number({ min: 0,max:100}),
+    //  faker.number.float({ min: 0, max: 1, precision: 0.01 }),
     start_date: faker.date.past({ years: 1 }),
     expiry_date:faker.date.future({ years: 1 })
   };
@@ -60,10 +193,10 @@ const generateFakeProducts = (creartedCategories,createdBrands,creartedDiscount)
   return {
     name: faker.commerce.productName(),
     sub_title:faker.commerce.productAdjective(),
-    model:faker.commerce.isbn(10),
+    model:faker.random.alphaNumeric(8),
     description :faker.commerce.productDescription(), 
     price :faker.commerce.price(), 
-    stock_quantity :faker.random.number({ min: 0}),
+    stock_quantity :faker.random.number({ min: 0,max:2000}),
     discount_id:faker.random.arrayElement(creartedDiscount.map((discount) => discount.id)),
     brand_id :faker.random.arrayElement(createdBrands.map((brand) => brand.id)),
     category_id :faker.random.arrayElement(creartedCategories.map((category) => category.id))
@@ -77,10 +210,10 @@ const generateFakeUser = () => {
       username: faker.internet.userName(),
       email: faker.internet.email(),
       password: faker.internet.password(),
-      first_name:faker.person.firstName() ,
-      last_name:faker.person.lastName(),
-      mobile:faker.phone.number(),
-      birth_date:faker.date.birthdate()
+      first_name:faker.name.firstName(),
+      last_name:faker.name.lastName(),
+      mobile:faker.phone.phoneNumber(),
+      birth_date: faker.date.between('1950-01-01', '2000-12-31').toISOString().split('T')[0]
     };
   };
   
@@ -105,7 +238,7 @@ const generateFakeUser = () => {
     
   const generateFakeShoppinglist = (createdProducts,createdUsers) => {
     return {
-      quantity:faker.random.number({ min: 1}),
+      quantity:faker.random.number({ min: 1 ,max:100}),
       product_id: faker.random.arrayElement(createdProducts.map((product) => product.id)), 
       user_id:faker.random.arrayElement(createdUsers.map((user) => user.id)),
     };
@@ -116,80 +249,83 @@ const generateFakeUser = () => {
         order_number: generateOrderNumber(),
         status: faker.random.arrayElement(['completed', 'processing', 'cancelled']),
         payment_method: faker.random.arrayElement(['card', 'cash', 'paypal', 'bank_transfer', 'crypto']),
-        user_id: faker.random.arrayElement(createdUsers.map((user) => user.id)),
+        // user_id: faker.random.arrayElement(createdUsers.map((user) => user.id)),
+        user_id: faker.random.arrayElement(createdUsers).id,
+
     }
     };
 
+  
     const generateOrderItems = (createdProducts,createdOrders) => {
       return {
-          quantity:faker.random.number({ min: 1}),
+          quantity:faker.random.number({ min: 1, max:100}),
           price :faker.commerce.price(), 
           product_id: faker.random.arrayElement(createdProducts.map((product) => product.id)),
           order_id: faker.random.arrayElement(createdOrders.map((order) => order.id)),
-      }
+        }
       };
-
-  const generateFakeSession = (createdUsers) => {
-    return {
-      session: faker.random.alphaNumeric(20),
-      user_id:faker.random.arrayElement(createdUsers.map((user) => user.id)),
-    };
+    const generateFakeSession = (createdUsers) => {
+      // Calculate the expiry date 6 hours from now
+      const expiryDate = new Date();
+      expiryDate.setHours(expiryDate.getHours() + 6);
+  
+      // Format the expiry date as a string in ISO format
+      const formattedExpiryDate = expiryDate.toISOString();
+  
+      return {
+          session_key: faker.random.alphaNumeric(20),
+          user_id: faker.random.arrayElement(createdUsers.map((user) => user.id)),
+          expiry_date: formattedExpiryDate,
+      };
   };
   
-  // Function to populate the tables with fake data
+  
+  // // Call the function to populate the database with fake data
+  // populateDatabase()
   export const populateDatabase = async () => {
     try {
-
-
       // Generate and insert fake data for Brands
-      const fakeBrands = Array.from({ length: 10 }, () => generateFakeBrands());
-      const createdBrands = await db.brands.bulkCreate(fakeBrands, { returning: true });
-
-
-      // Generate and insert fake data for Categorie
-      const fakeCategories = Array.from({ length: 10 }, () => generateFakeCategories());
-      const createdCategories= await db.categories.bulkCreate(fakeCategories, { returning: true });
-
-
-       // Generate and insert fake data for Discounts
-       const fakeDiscount = Array.from({ length: 20 }, () => generateFakeDiscount());
-       const creartedDiscount= await db.discounts.bulkCreate(fakeDiscount, { returning: true });
-
-
-      // Generate and insert fake data for Products
-      const fakeProducts = Array.from({ length: 200 }, () => generateFakeProducts(createdCategories,createdBrands,creartedDiscount));
-      const createdProducts = await db.products.bulkCreate(fakeProducts, { returning: true });
-
-
+      // const fakeBrands = Array.from({ length: 40 }, () => generateFakeBrands());
+      // const createdBrands = await db.brands.bulkCreate(fakeBrands, { returning: true });
+  
+      // // Generate and insert fake data for Categories
+      // const fakeCategories = Array.from({ length: 30 }, () => generateFakeCategories());
+      // const createdCategories = await db.categories.bulkCreate(fakeCategories, { returning: true });
+      const createdCategories=await db.categories.bulkCreate(fakeCategories);
+    
+      // Insert fake brands into the database
+      const createdBrands=await db.brands.bulkCreate(fakeBrands);
+      // Generate and insert fake data for Discounts
+      const fakeDiscount = Array.from({ length: 20 }, () => generateFakeDiscount());
+      const creartedDiscount = await db.discounts.bulkCreate(fakeDiscount, { returning: true });
+  
       // Generate and insert fake data for Users
       const fakeUsers = Array.from({ length: 20 }, () => generateFakeUser());
       const createdUsers = await db.users.bulkCreate(fakeUsers, { returning: true });
-
-
+  
+      // Generate and insert fake data for Products
+      const fakeProducts = Array.from({ length: 200 }, () => generateFakeProducts(createdCategories, createdBrands, creartedDiscount));
+      const createdProducts = await db.products.bulkCreate(fakeProducts, { returning: true });
+  
       // Generate and insert fake data for Reviews
-      const fakeReviews = Array.from({ length: 100 }, () => generateFakeReviews(createdProducts,createdUsers));
+      const fakeReviews = Array.from({ length: 100 }, () => generateFakeReviews(createdProducts, createdUsers));
       const createdReviews = await db.reviews.bulkCreate(fakeReviews, { returning: true });
-
-
+  
       // Generate and insert fake data for Wishlists
-      const fakeWishlist = Array.from({ length: 20 }, () => generateFakeWishlist(createdProducts,createdUsers));
+      const fakeWishlist = Array.from({ length: 20 }, () => generateFakeWishlist(createdProducts, createdUsers));
       const createdWishlist = await db.wishlists.bulkCreate(fakeWishlist, { returning: true });
-
-
+  
       // Generate and insert fake data for ShoppingCarts
-      const fakeShoppingCart = Array.from({ length: 20 }, () => generateFakeShoppinglist(createdProducts,createdUsers));
+      const fakeShoppingCart = Array.from({ length: 20 }, () => generateFakeShoppinglist(createdProducts, createdUsers));
       const createdShoppingCarts = await db.shoppingCarts.bulkCreate(fakeShoppingCart, { returning: true });
-
-
+  
       // Generate and insert fake data for Orders
-      const fakeOrders = Array.from({ length: 100 }, () => generateOrders(createdProducts));
-      const createdOrders= await db.orders.bulkCreate(fakeOrders, { returning: true });
-
-
+      const fakeOrders = Array.from({ length: 100 }, () => generateOrders(createdUsers));
+      const createdOrders = await db.orders.bulkCreate(fakeOrders, { returning: true });
       // Generate and insert fake data for OrderItems
-      const fakeOrderItems = Array.from({ length: 300 }, () => generateOrderItems(createdProducts,createdOrders));
-      const createdOrderItems= await db.orderItems.bulkCreate(fakeOrderItems, { returning: true });
-
+      const fakeOrderItems = Array.from({ length: 200 }, () => generateOrderItems(createdProducts,createdOrders));
+      const createdOrderItems = await db.ordersItems.bulkCreate(fakeOrderItems, { returning: true })
+  
       // Generate and insert fake data for Sessions
       const fakeSessions = Array.from({ length: 30 }, () => generateFakeSession(createdUsers));
       const createdSessions = await db.sessions.bulkCreate(fakeSessions, { returning: true });
@@ -202,7 +338,7 @@ const generateFakeUser = () => {
       await db.sequelize.close();
     }
   };
-
-
+  
   // Call the function to populate the database with fake data
-  populateDatabase()
+  populateDatabase();
+  

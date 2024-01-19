@@ -1,7 +1,7 @@
 module.exports = (sequelize, DataTypes) => {
     const Session = sequelize.define("Session", {
         
-        session: {
+        session_key: {
             type: DataTypes.STRING,
             allowNull: false,
             unique: true,
