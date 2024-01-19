@@ -1,4 +1,4 @@
-const dbConfig = require('../Config/dbConfig.ts');
+// const dbConfig = require('../config/dbConfig.ts');
 import { Sequelize, DataTypes, Dialect } from 'sequelize';
 
 // const sequelize = new Sequelize(

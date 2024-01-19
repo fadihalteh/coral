@@ -1,5 +1,5 @@
 import {  Request,Response ,NextFunction} from 'express';
-const db = require('../Database/Models/index');
+const db = require('../database/models/index');
 import Joi from 'joi'
 const bcrypt = require('bcrypt');
 

@@ -1,14 +1,14 @@
 import express from 'express';
-import usersRoute from './src/Routers/usersRoute';
-import addressesRoute from './src/Routers/addressesRoute';
-import reviewsRoute from './src/Routers/reviewsRoute';
-import productRoute from './src/Routers/productRoute';
-import categoryRoute from './src/Routers/categoryRoute';
-import brandRoute from './src/Routers/brandRoute';
-import searchSuggestionsRoute from './src/Routers/searchSuggestionsRoute';
+import usersRoute from './src/routers/usersRoute';
+import addressesRoute from './src/routers/addressesRoute';
+import reviewsRoute from './src/routers/reviewsRoute';
+import productRoute from './src/routers/productRoute';
+import categoryRoute from './src/routers/categoryRoute';
+import brandRoute from './src/routers/brandRoute';
+import searchSuggestionsRoute from './src/routers/searchSuggestionsRoute';
 // import wishlistRoute from './Routers/wishlistRoute';
-import ordersRoute from './src/Routers/ordersRoute';
-import shoppingCartRoute from './src/Routers/shoppingCartRoute';
+import ordersRoute from './src/routers/ordersRoute';
+import shoppingCartRoute from './src/routers/shoppingCartRoute';
 
 
 import cors from 'cors';

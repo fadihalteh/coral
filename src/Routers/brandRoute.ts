@@ -1,6 +1,6 @@
 
 import express from 'express';
-import {getAllBrands} from '../Controllers/brandController';
+import {getAllBrands} from '../controllers/brandController';
 const router = express.Router();
 
 router.get('/', getAllBrands);
