@@ -1,1 +1,17 @@
 GET http://localhost:3000/category
+###
+GET http://localhost:3000/brand
+###
+
+POST http://localhost:3000/users/signup
+Content-Type: application/json
+
+{
+"username": "fadi",
+ "email": "fyfade_email@example.com",
+  "password": "Mh&55r58r55",
+  "first_name": "John",
+  "last_name": "Doe",
+  "mobile": "1234567890",
+  "birth_date": "1990-01-01"
+}

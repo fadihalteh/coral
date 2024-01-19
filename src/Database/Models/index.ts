@@ -113,7 +113,7 @@ db.addresses.hasMany(db.orders, { foreignKey:{ name: 'address_id', allowNull: fa
 
 
 // Sync the s with the database
-db.sequelize.sync({ alter: true })
+db.sequelize.sync({ force: true })
     .then(() => {
         console.log('Database synchronization complete.');
     })
