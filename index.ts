@@ -23,7 +23,10 @@ app.use(cors({
 }));
 
 app.use(express.json())
-app.use('/images',express.static('./src/images'))
+app.use('/images',express.static('./src/Images'))
+app.use('/Images',express.static('./src/Images'))
+app.use('/Images',express.static('./src/images'))
+
 app.use('/users', usersRoute);
 app.use('/addresses', addressesRoute);
 app.use('/reviews',checkSessionId,reviewsRoute);
