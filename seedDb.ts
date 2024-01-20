@@ -14,9 +14,10 @@ const commonCategories = [
   "Jewelry",
   "Apparels",
   "Personal Care",
-  "Sun Glasses",
+  "Sunglasses",
   "Wrist Watches",
   "Eye Wear",
+  "Fargrance",
   "Electronics",
   "Home Decor",
   "Footwear",
@@ -157,15 +158,34 @@ const commonBrands = [
   "Superdry",
   "Swatch",
 ];
+const iconPaths = ["Images/Category/eye_icon.png", "Images/Category/handbags_icon.png", "Images/Category/jewellery_icon.png","Images/Category/skin_icon","Images/Category/watches"];
+const imagePaths = ["Images/Category/care.png", "Images/Category/handbag.png", "Images/Category/sunglesses.png","Images/Category/watch.png"];
+const mobileImagePaths = ["Images/Category/mapparels.png", "Images/Category/meyeware.png", "Images/Category/mfragrance.png","Images/Category/mhandbags.png","Images/Category/skincare.png"];
+
+// Function to generate fake categories with your own image paths
+const generateFakeCategory = (name, iconPaths, imagePaths, mobileImagePaths) => ({
+  name,
+  icon: getRandomPath(iconPaths),
+  image: getRandomPath(imagePaths),
+  image_mobile: getRandomPath(mobileImagePaths),
+});
+
+// Function to get a random path from an array
+const getRandomPath = (pathArray) => pathArray[Math.floor(Math.random() * pathArray.length)];
+
+// Generate fake categories with your own image paths
+const fakeCategories = commonCategories.map(category =>
+  generateFakeCategory(category, iconPaths, imagePaths, mobileImagePaths)
+);
 
 
-const generateFakeCategory = (name) => ({ name });
+// const generateFakeCategory = (name) => ({ name });
 
-// Function to generate a fake brand
+// // Function to generate a fake brand
 const generateFakeBrand = (name) => ({ name });
 
-// Generate fake categories and brands
-const fakeCategories = commonCategories.map(generateFakeCategory);
+// // Generate fake categories and brands
+// const fakeCategories = commonCategories.map(generateFakeCategory);
 const fakeBrands = commonBrands.map(generateFakeBrand);
 
 const generateFakeDiscount = () => {
