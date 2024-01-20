@@ -1,6 +1,6 @@
 import {  Request,Response ,NextFunction} from 'express';
 const db = require('../Database/Models/index');
-import Joi from 'joi'
+const Joi = require('joi');
 const bcrypt = require('bcrypt');
 
  interface User {
@@ -182,7 +182,8 @@ export const changePassword = async (req, res: Response):Promise<boolean| err<st
       }
   
       const { currentPassword,newPassword } = value;
-      let user =req.session.user_id
+      let user:User = await db.users.findOne({ where: { id:req.session.user_id } });
+
       let matchPassword=await bcrypt.compare(currentPassword, user.password)
       if (!matchPassword) {
         return res.status(400).json({ error: 'Password is incorrect' });
@@ -242,9 +243,9 @@ export const changePassword = async (req, res: Response):Promise<boolean| err<st
       if (error) {
         return res.status(400).json({ error: error.details[0].message });
       }
-  
+      console.log(value)
       const user = await db.users.update(value,{ where: { id: req.session.user_id  } });
-      return res.status(200).json(user);
+      return res.status(200).json(true);
     } catch (error) {
       console.error(error);
       return res.status(500).json({ error: 'Internal Server Error' });

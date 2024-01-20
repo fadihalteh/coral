@@ -33,12 +33,12 @@ import Joi from 'joi'
       const { rating,comment } = value;
       const product_id = req.params.product_id;
 
-      const existingProduct= await db.products.findOne({ where: { product_id } });
+      const existingProduct= await db.products.findOne({ where: { id:product_id } });
       if (!existingProduct) {
         return res.status(404).json({ error: 'product not found' });
       }
     
-      const newReview = await db.reviews.create({  user_id: req.session.user_id, product_id, rating, comment  });
+      const newReview = await db.reviews.create({  user_id:req.session.user_id, product_id, rating, comment  });
       return res.status(200).json(newReview);
     } 
       catch (error) {
@@ -55,7 +55,7 @@ import Joi from 'joi'
         return res.status(400).json({ error: error.details[0].message });
       }
       const product_id = req.params.product_id;
-      const existingProduct= await db.products.findOne({ where: { product_id, } });
+      const existingProduct= await db.products.findOne({ where: { id:product_id } });
       if (!existingProduct) {
         return res.status(404).json({ error: 'product not found' });
       }
@@ -65,7 +65,7 @@ import Joi from 'joi'
       }
     
       const newReview = await db.reviews.update(value,{ where: {user_id: req.session.user_id, product_id }});
-      return res.status(200).json(newReview);
+      return res.status(200).json(true);
     } 
       catch (error) {
       console.error(error);
@@ -78,7 +78,7 @@ import Joi from 'joi'
     try {
      
       const product_id = req.params.product_id;
-      const existingProduct= await db.products.findOne({ where: { product_id, } });
+      const existingProduct= await db.products.findOne({ where: { id:product_id, } });
       if (!existingProduct) {
         return res.status(404).json({ error: 'product not found' });
       }

@@ -4,9 +4,9 @@ const router = express.Router();
 
 
 
-router.post('/:productId',postReview);
-router.put('/:productId',updateReview);
-router.delete('/:productId',deleteReview);
+router.post('/:product_id',postReview);
+router.put('/:product_id',updateReview);
+router.delete('/:product_id',deleteReview);
 router.get('/',getAllUserReviews );
 
 

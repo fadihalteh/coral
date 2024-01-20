@@ -336,4 +336,3 @@ const generateFakeUser = () => {
   };
   
   populateDatabase();
-  
