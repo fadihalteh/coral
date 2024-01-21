@@ -158,6 +158,7 @@ const commonBrands = [
   "Superdry",
   "Swatch",
 ];
+const logoImage = ["Images/Brands/zara.png","Images/Brands/biba.png","Images/Brands/hm.png","Images/Brands/dolce.png","Images/Brands/chanel.png","Images/Brands/prada.png"]
 const iconPaths = ["Images/Category/eye_icon.png", "Images/Category/handbags_icon.png", "Images/Category/jewellery_icon.png","Images/Category/skin_icon","Images/Category/watches"];
 const imagePaths = ["Images/Category/care.png", "Images/Category/handbag.png", "Images/Category/sunglesses.png","Images/Category/watch.png"];
 const mobileImagePaths = ["Images/Category/mapparels.png", "Images/Category/meyeware.png", "Images/Category/mfragrance.png","Images/Category/mhandbags.png","Images/Category/skincare.png"];
@@ -182,11 +183,14 @@ const fakeCategories = commonCategories.map(category =>
 // const generateFakeCategory = (name) => ({ name });
 
 // // Function to generate a fake brand
-const generateFakeBrand = (name) => ({ name });
+const generateFakeBrand = (name,brandInmages) => ({
+   name,
+   logo:getRandomPath(logoImage)
+   });
 
 // // Generate fake categories and brands
 // const fakeCategories = commonCategories.map(generateFakeCategory);
-const fakeBrands = commonBrands.map(generateFakeBrand);
+const fakeBrands = commonBrands.map(brand =>generateFakeBrand(brand,logoImage));
 
 const generateFakeDiscount = () => {
   return {
@@ -320,11 +324,11 @@ const generateFakeUser = () => {
         const createdAdresses = await db.addresses.bulkCreate(fakeAdresses, { returning: true });
 
       // Generate and insert fake data for Products
-      const fakeProducts = Array.from({ length: 200 }, () => generateFakeProducts(createdCategories, createdBrands, creartedDiscount));
+      const fakeProducts = Array.from({ length: 400 }, () => generateFakeProducts(createdCategories, createdBrands, creartedDiscount));
       const createdProducts = await db.products.bulkCreate(fakeProducts, { returning: true });
   
       // Generate and insert fake data for Reviews
-      const fakeReviews = Array.from({ length: 100 }, () => generateFakeReviews(createdProducts, createdUsers));
+      const fakeReviews = Array.from({ length: 1000 }, () => generateFakeReviews(createdProducts, createdUsers));
       const createdReviews = await db.reviews.bulkCreate(fakeReviews, { returning: true });
   
       // Generate and insert fake data for Wishlists
