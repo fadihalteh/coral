@@ -105,7 +105,10 @@ Authorization:a6fwkhr0gerk2n4iu7wn
 
 ###
 GET http://localhost:3000/reviews
-Authorization:a6fwkhr0gerk2n4iu7wn
+Authorization:m9y5fp0gxfo6yqticdrb
+###
+GET http://158.176.7.102:3000/reviews
+Authorization:m9y5fp0gxfo6yqticdrb
 #######################################################
 
 #WISHLIST
