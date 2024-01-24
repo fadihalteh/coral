@@ -142,32 +142,15 @@ export const getAllCategories = async (req: Request, res: Response) => {
           'sub_title',
           'price',
           'createdAt',
-          [db.sequelize.fn('AVG', db.sequelize.col('reviews.rating')), 'average_rating'],
-          [db.sequelize.fn('COUNT', db.sequelize.col('reviews.rating')), 'rating_count'],
         ],
         include: [
-          {
-            model: db.reviews,
-            attributes: [],
-          },
-          {
-            model: db.discounts,
-            attributes: ['percentage'],
-          },
-          {
-            model: db.productsImages,
-            attributes: ['image_url'],
-            limit: 1, 
-          },
+    
           {
             model: db.categories,
             attributes: ['id'],
-            where: {
-              id:req.params.categoryId, 
-            },
           },
         ],
-        group: ['id'],      
+       
       });
     
       return res.status(200).json(result);
