@@ -612,8 +612,8 @@ const commonAttributes = [
   'sub_title',
   'price',
   'createdAt',
-  [db.sequelize.fn('AVG', db.sequelize.col('reviews.rating')), 'average_rating'],
-  [db.sequelize.fn('COUNT', db.sequelize.col('reviews.rating')), 'rating_count'],
+  [db.sequelize.fn('AVG', db.sequelize.col('Reviews.rating')), 'average_rating'],
+  [db.sequelize.fn('COUNT', db.sequelize.col('Reviews.rating')), 'rating_count'],
 ];
 
 const commonInclude = [
@@ -635,9 +635,9 @@ const commonInclude = [
 const commonSortOptions: Record<string, any> = {
   'price-high': [['price', 'DESC']],
   'price-low': [['price', 'ASC']],
-  'ratings': [[db.sequelize.fn('AVG', db.sequelize.col('reviews.rating')), 'DESC']],
+  'ratings': [[db.sequelize.fn('AVG', db.sequelize.col('Reviews.rating')), 'DESC']],
   'latest': [['createdAt', 'DESC']],
-  'popular': [[db.sequelize.fn('AVG', db.sequelize.col('reviews.rating')), 'DESC']],
+  'popular': [[db.sequelize.fn('AVG', db.sequelize.col('Reviews.rating')), 'DESC']],
 };
 
 const handleRequest = async (req: Request, res: Response, options: ProductQueryOptions) => {
@@ -727,7 +727,7 @@ export const getDiscountPlusProducts = async (req: Request, res: Response) => {
 export const getPopularProducts = async (req: Request, res: Response) => {
   await handleRequest(req, res, {
     group: ['id'],
-    having: db.sequelize.where(db.sequelize.fn('AVG', db.sequelize.col('reviews.rating')), '>', 4.5),
+    having: db.sequelize.where(db.sequelize.fn('AVG', db.sequelize.col('Reviews.rating')), '>', 4.5),
   });
 };
 export const handPickedProducts = async (req: Request, res: Response) => {
@@ -738,7 +738,7 @@ export const handPickedProducts = async (req: Request, res: Response) => {
       }
     },
     group: ['id'],
-    having: db.sequelize.where(db.sequelize.fn('AVG', db.sequelize.col('reviews.rating')), '>', 4.5)
+    having: db.sequelize.where(db.sequelize.fn('AVG', db.sequelize.col('Reviews.rating')), '>', 4.5)
   });
 };
 

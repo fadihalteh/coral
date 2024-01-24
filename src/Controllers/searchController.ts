@@ -137,8 +137,8 @@ import Joi from 'joi'
             'name',
             'sub_title',
             'price',
-            [db.sequelize.fn('AVG', db.sequelize.col('reviews.rating')), 'average_rating'],
-            [db.sequelize.fn('COUNT', db.sequelize.col('reviews.rating')), 'rating_count'],
+            [db.sequelize.fn('AVG', db.sequelize.col('Reviews.rating')), 'average_rating'],
+            [db.sequelize.fn('COUNT', db.sequelize.col('Reviews.rating')), 'rating_count'],
           ],
           include: [
             {
@@ -165,7 +165,7 @@ import Joi from 'joi'
                     },
                   },
                   {
-                    '$Product.name$': {
+                    '$Products.name$': {
                       [Op.like]: `%${userInput}%`,
                     },
                   },
@@ -174,7 +174,7 @@ import Joi from 'joi'
             },
           ],
           group: ['id'],
-          order: [[db.sequelize.fn('AVG', db.sequelize.col('reviews.rating')), 'DESC']],
+          order: [[db.sequelize.fn('AVG', db.sequelize.col('Reviews.rating')), 'DESC']],
         });
     
         return res.status(200).json(result);

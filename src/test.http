@@ -1,5 +1,7 @@
 GET http://localhost:3000/category
 ###
+GET http://localhost:3000/category/3/products
+###
 GET http://158.176.7.102:3000/category/3/products
 
 #####

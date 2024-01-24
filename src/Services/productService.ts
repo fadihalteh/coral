@@ -69,8 +69,8 @@ export const getProductDetails = async (requested_id) => {
           'price',
           'stock_quantity',
           'description',
-          [db.sequelize.fn('AVG', db.sequelize.col('reviews.rating')), 'average_rating'],
-          [db.sequelize.fn('COUNT', db.sequelize.col('reviews.rating')), 'rating_count']
+          [db.sequelize.fn('AVG', db.sequelize.col('Reviews.rating')), 'average_rating'],
+          [db.sequelize.fn('COUNT', db.sequelize.col('Reviews.rating')), 'rating_count']
         ],
         include: [
           {

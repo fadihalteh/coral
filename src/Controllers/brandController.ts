@@ -21,9 +21,9 @@ export const getProductsByBrand = async (req: Request, res: Response) => {
       const validSortOptions: Record<string, any> = {
         'price-high': [['price', 'DESC']],
         'price-low': [['price', 'ASC']],
-        'ratings': [[db.sequelize.fn('AVG', db.sequelize.col('reviews.rating')), 'DESC']],
+        'ratings': [[db.sequelize.fn('AVG', db.sequelize.col('Reviews.rating')), 'DESC']],
         'latest': [['createdAt', 'DESC']],
-        'popular': [[db.sequelize.fn('AVG', db.sequelize.col('reviews.rating')), 'DESC']], // Adjust as needed
+        'popular': [[db.sequelize.fn('AVG', db.sequelize.col('Reviews.rating')), 'DESC']], // Adjust as needed
       };
   
       // Check if the user's input is a valid sorting option
@@ -39,8 +39,8 @@ export const getProductsByBrand = async (req: Request, res: Response) => {
           'sub_title',
           'price',
           'createdAt',
-          [db.sequelize.fn('AVG', db.sequelize.col('reviews.rating')), 'average_rating'],
-          [db.sequelize.fn('COUNT', db.sequelize.col('reviews.rating')), 'rating_count'],
+          [db.sequelize.fn('AVG', db.sequelize.col('Reviews.rating')), 'average_rating'],
+          [db.sequelize.fn('COUNT', db.sequelize.col('Reviews.rating')), 'rating_count'],
         ],
         include: [
           {
