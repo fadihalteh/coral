@@ -102,12 +102,12 @@ db.categories.hasMany(db.products, { foreignKey:{ name: 'category_id', allowNull
 
 //order relations
 db.orders.hasMany(db.ordersItems, { foreignKey:{ name: 'order_id', allowNull: false }});
-db.orders.belongsTo(db.addresses, { foreignKey:{ name: 'address_id', allowNull: false }});
+db.orders.belongsTo(db.addresses, { foreignKey:{ name: 'address_id', allowNull: true }});
 
 // db.orders.hasOne(db.ordersRecipients, { foreignKey:{ name: 'order_id', allowNull: false }});
 
 db.ordersItems.belongsTo(db.orders, { foreignKey:{ name: 'order_id', allowNull: false }});
-db.addresses.hasMany(db.orders, { foreignKey:{ name: 'address_id', allowNull: false }});
+db.addresses.hasMany(db.orders, { foreignKey:{ name: 'address_id', allowNull: true }});
 
 // db.ordersRecipients.belongsTo(db.orders, { foreignKey:{ name: 'order_id', allowNull: false }});
 
@@ -121,4 +121,4 @@ db.sequelize.sync({ alter: true })
         console.error('Error synchronizing the database:', err);
     });
 
-module.exports = db;
+export default db;

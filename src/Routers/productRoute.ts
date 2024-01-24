@@ -1,9 +1,16 @@
 import express from 'express';
- import {getNewArrivals} from '../Controllers/productController';
+ import {getNewArrivals,getProducts,getLimitProducts,getDiscountPlusProducts,getPopularProducts,getProductDetails,handPickedProducts} from '../Controllers/productController';
 const router = express.Router();
+//  import {getProductDetails} from '../Controllers/productController';
 
-router.get('/', );
-
+router.get('/',getProducts);
 router.get('/new-arrivals',getNewArrivals);
+router.get('/limited-edition',getLimitProducts);
+router.get('/discount-15plus',getDiscountPlusProducts);
+router.get('/popular',getPopularProducts);
+router.get('/handpicked',handPickedProducts)
+router.get('/info/:product_id',getProductDetails)
+// router.get('/trendy',getTrendyProducts)
+
 
 export default router

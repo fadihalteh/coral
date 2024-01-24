@@ -22,9 +22,6 @@ module.exports = (sequelize, DataTypes) => {
         comment: {
             type: DataTypes.STRING,
         },
-        image: {
-            type: DataTypes.STRING,
-        }
        
     }, {
        
