@@ -14,12 +14,13 @@ import { Sequelize, DataTypes, Dialect } from 'sequelize';
 //         },
 //     }
 // );
+
 export const sequelize = new Sequelize(
-    process.env.mysql_database as string||"coral_store",
-    process.env.mysql_username as string||"root",
-    process.env.mysql_password||"12345678",
+    process.env.mysql_database as string,
+    process.env.mysql_username as string,
+    process.env.mysql_password,
     {
-      host: process.env.mysql_host||"localhost",
+      host: process.env.mysql_host,
       dialect: "mysql",
       pool: {
         max: 10,
