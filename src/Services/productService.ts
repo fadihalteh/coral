@@ -145,7 +145,7 @@ export const getProductDetails = async (requested_id) => {
         ]
       });
       return ({ details,reviews,images,related_products });
-    } catch (error) {
+    } catch (error:any) {
         if (error.code) {
             throw { code: error.code, message: error.message };
           } else {

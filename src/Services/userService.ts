@@ -47,7 +47,7 @@ export const createUser = async (input: CreateUserInput): Promise<Session | Erro
     })) as Session;
 
     return newSession;
-  } catch (error) {
+  } catch (error:any) {
     if (error.code) {
       throw { code: error.code, message: error.message };
     } else {
@@ -81,7 +81,7 @@ export const loginUser = async (input: LoginUserInput): Promise<Session | ErrorR
     });
 
     return newSession;
-  } catch (error) {
+  } catch (error:any) {
     if (error.code) {
       throw { code: error.code, message: error.message };
     } else {
@@ -94,7 +94,7 @@ export const logoutUser = async (session: Session): Promise<boolean | ErrorRespo
   try {
     await db.sessions.destroy({ where: { session_key: session.session_key } });
     return true;
-  } catch (error) {
+  } catch (error:any) {
     if (error.code) {
       throw { code: error.code, message: error.message };
     } else {
@@ -114,7 +114,7 @@ export const checkSessionId = async (sessionKey: string): Promise<Session | Erro
     }
 
     return session;
-  } catch (error) {
+  } catch (error:any) {
     if (error.code) {
       throw { code: error.code, message: error.message };
     } else {
@@ -141,7 +141,7 @@ export const changePassword = async (input: ChangePasswordInput, session: Sessio
     await db.sessions.destroy({ where: { user_id: user.id } });
 
     return true;
-  } catch (error) {
+  } catch (error:any) {
     if (error.code) {
         throw { code: error.code, message: error.message };
       } else {
@@ -164,7 +164,7 @@ export const changeUsername = async (input: ChangeUsernameInput, session: Sessio
     await db.users.update({ username: newUsername }, { where: { id: session.user_id } });
 
     return true;
-  } catch (error) {
+  } catch (error:any) {
     if (error.code) {
         throw { code: error.code, message: error.message };
       } else {
@@ -176,7 +176,7 @@ export const getUserDetails = async (session: Session): Promise<User | ErrorResp
   try {
     const user = await db.users.findOne({ where: { id: session.user_id } });
     return user;
-  } catch (error) {
+  } catch (error:any) {
     if (error.code) {
         throw { code: error.code, message: error.message };
       } else {
@@ -189,7 +189,7 @@ export const updateUserDetails = async (input: UpdateUserDetailsInput, session: 
     const { first_name, last_name, mobile, birth_date } = input;
     const user = await db.users.update({ first_name, last_name, mobile, birth_date }, { where: { id: session.user_id } });
     return true;
-  } catch (error) {
+  } catch (error:any) {
     if (error.code) {
         throw { code: error.code, message: error.message };
       } else {
@@ -201,7 +201,7 @@ export const deleteUserAccount = async (session: Session): Promise<boolean | Err
   try {
     const user = await db.users.destroy({ where: { id: session.user_id } });
     return true;
-  } catch (error) {
+  } catch (error:any) {
     if (error.code) {
         throw { code: error.code, message: error.message };
       } else {

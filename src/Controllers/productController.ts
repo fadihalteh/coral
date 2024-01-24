@@ -598,11 +598,12 @@
 import db from '../Database/Models/index';
 
 interface ProductQueryOptions {
-  attributes: string[];
-  include: any[];
+  attributes?: string[];
+  include?:any[];
   where?: any;
   group?: string[];
   order?: any;
+  having?:any;
 }
 
 const commonAttributes = [
