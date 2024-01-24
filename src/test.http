@@ -239,7 +239,7 @@ Authorization:xav3bdotvybcjhfl4ux5
 
 
 ###
-GET http://158.176.7.102:3000/products/info/4
+GET http://158.176.7.102:3000/products/info/8
 ###
 GET http://158.176.7.102:3000/products/handpicked
 ###
@@ -251,12 +251,30 @@ GET http://158.176.7.102:3000/products/limited-edition
 ###
 GET http://158.176.7.102:3000/products/discount-15plus?pageSize=9&page=2
 ###
-GET http://158.176.7.102:3000/products/popular?pageSize=9&page=3
+GET http://158.176.7.102:3000/products/popular?pageSize=9&page=1&sortBy=price-low
 ###
-GET http://158.176.7.102:3000/products?pageSize=9&page=3&sortBy=price-low
+GET http://158.176.7.102:3000/products?page=3&sortBy=price-low
 ###
 ###
-GET http://158.176.7.102:3000/search/suggestions?keyword=aw
+GET http://158.176.7.102:3000/search/suggestions?keyword=o
 
 ###
 GET http://158.176.7.102:3000/search?keyword=fr
+###
+GET http://158.176.7.102:3000/category/3/products
+####
+GET http://158.176.7.102:3000/brand/3/products
+
+###
+POST http://158.176.7.102:3000/users/signup
+Content-Type: application/json
+
+{
+  "username": "ahhsdf",
+  "email": "tfewfwfw3e@example.com",
+  "password": "Mh&55r58r55",
+  "first_name": "John",
+  "last_name": "Doe",
+  "mobile": "1234567890",
+  "birth_date": "1990-01-01"
+}
