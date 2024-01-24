@@ -220,3 +220,43 @@ Authorization:xav3bdotvybcjhfl4ux5
 DELETE  http://localhost:3000/shopping-cart/clear
 Authorization:xav3bdotvybcjhfl4ux5
 ###
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+###
+GET http://158.176.7.102:3000/products/info/4
+###
+GET http://158.176.7.102:3000/products/handpicked
+###
+GET http://158.176.7.102:3000/products/trendy
+###
+GET http://158.176.7.102:3000/products/new-arrivals
+###
+GET http://158.176.7.102:3000/products/limited-edition
+###
+GET http://158.176.7.102:3000/products/discount-15plus?pageSize=9&page=2
+###
+GET http://158.176.7.102:3000/products/popular?pageSize=9&page=3
+###
+GET http://158.176.7.102:3000/products?pageSize=9&page=3&sortBy=price-low
+###
+###
+GET http://158.176.7.102:3000/search/suggestions?keyword=aw
+
+###
+GET http://158.176.7.102:3000/search?keyword=fr

@@ -165,7 +165,7 @@ import Joi from 'joi'
                     },
                   },
                   {
-                    '$Products.name$': {
+                    '$Product.name$': {
                       [Op.like]: `%${userInput}%`,
                     },
                   },
