@@ -1,63 +1,221 @@
 import db from '../Database/Models/index';
-// const commonInclude = [
-//   {
-//     model: db.reviews,
-//     attributes: []
-//   },
-//   {
-//     model: db.discounts,
-//     attributes: ['percentage']
-//   },
-//   {
-//     model: db.productsImages,
-//     attributes: ['image_url'],
-//     limit: 1
-//   },
+import { Op } from 'sequelize';
+
+interface ProductQueryOptions {
+  where?: any;
+  group?: string[];
+  attributes?: string[];
+  include?: any[];
+  sortBy?: string;
+  page?: number;
+  pageSize?: number;
+}
+
+const commonAttributes = [
+  'id',
+  'name',
+  'sub_title',
+  'price',
+  'stock_quantity',
+  'createdAt',
+  [db.sequelize.fn('AVG', db.sequelize.col('Reviews.rating')), 'average_rating'],
+  [db.sequelize.fn('COUNT', db.sequelize.col('Reviews.rating')), 'rating_count'],
+];
+
+const commonInclude = [
+  {
+    model: db.reviews,
+    attributes: [],
+  },
+  {
+    model: db.discounts,
+    attributes: ['percentage'],
+  },
+  {
+    model: db.productsImages,
+    attributes: ['image_url'],
+    limit: 1,
+  },
+  {
+    model: db.brands,
+    attributes: ['id','name'],
+  },
+  {
+    model: db.categories,
+    attributes: ['id','name'],
+  }
+];
+
+const commonSortOptions: Record<string, any> = {
+  'price-high': [['price', 'DESC']],
+  'price-low': [['price', 'ASC']],
+  'ratings': [[db.sequelize.fn('AVG', db.sequelize.col('Reviews.rating')), 'DESC']],
+  'latest': [['createdAt', 'DESC']],
+  'popular': [[db.sequelize.fn('AVG', db.sequelize.col('Reviews.rating')), 'DESC']],
+};
+
+export const Sequelize = db.Sequelize;
+
+const handleRequest = async (options: ProductQueryOptions,searchInput?) => {
+  try {
+    const sortBy = options.sortBy || 'ratings';
+    const sortOrder = commonSortOptions[sortBy] || commonSortOptions['ratings'];
+    const whereConditions: any = {}; // Define your additional where conditions here
+    if (searchInput) {
+      // Include both product name and brand name in the search conditions
+      whereConditions[Op.or] = [
+        {
+          name: {
+            [Op.like]: `%${searchInput}%`,
+          },
+        },
+        {
+          '$Brand.name$': {
+            [Op.like]: `%${searchInput}%`,
+          },
+        },
+      ];
+    }
+    if (options.brandId) {
+      whereConditions.brand_id = options.brandId;
+    }
+
+    if (options.categoryId) {
+      whereConditions.category_id = options.categoryId;
+    }
+    const mergedWhereConditions = { ...options.where, ...whereConditions };
+
+    const result = await db.products.findAll({
+      subQuery: false,
+      ...options,
+      where: mergedWhereConditions,
+      attributes: [...commonAttributes, ...(options.attributes || [])],
+      include: [...commonInclude, ...(options.include || [])],
+      order: sortOrder,
+    });
+
+    return {
+      totalItems: result.length,
+      totalPages: Math.ceil(result.length / options.pageSize),
+      currentPage: options.page,
+      pageSize: options.pageSize,
+      data: result.slice((options.page - 1) * options.pageSize, (options.page - 1) * options.pageSize + options.pageSize),
+    };
+  } catch (error) {
+    console.error(error);
+    throw new Error('Internal Server Error');
+  }
+};
+
+export const getNewArrivals = async (options: ProductQueryOptions) => {
+  try {
+    const result = await handleRequest(options);
+    return result;
+  } catch (error) {
+    console.error(error);
+    throw new Error('Internal Server Error');
+  }
+};
+
+export const getProducts = async (options: ProductQueryOptions) => {
+  try {
+    const result = await handleRequest(options);
+    return result;
+  } catch (error) {
+    console.error(error);
+    throw new Error('Internal Server Error');
+  }
+};
+
+export const getLimitProducts = async (options: ProductQueryOptions) => {
+  try {
+    const result = await handleRequest(options);
+    return result;
+  } catch (error) {
+    console.error(error);
+    throw new Error('Internal Server Error');
+  }
+};
+
+export const getDiscountPlusProducts = async (options: ProductQueryOptions) => {
+  try {
+    const include = [
+      {
+        model: db.discounts,
+        attributes: ['percentage'],
+        where: {
+          percentage: {
+            [Sequelize.Op.gte]: 15,
+          },
+        },
+      },
+    ];
+
+    const result = await handleRequest({ ...options, include });
+    return result;
+  } catch (error) {
+    console.error(error);
+    throw new Error('Internal Server Error');
+  }
+};
+
+export const getPopularProducts = async (options: ProductQueryOptions) => {
+  try {
+    const result = await handleRequest(options);
+    return result;
+  } catch (error) {
+    console.error(error);
+    throw new Error('Internal Server Error');
+  }
+};
+
+export const handPickedProducts = async (options: ProductQueryOptions) => {
+  try {
+    const result = await handleRequest(options);
+    return result;
+  } catch (error) {
+    console.error(error);
+    throw new Error('Internal Server Error');
+  }
+};
+
+export const getSearchResults  = async (options: ProductQueryOptions,searchInput) => {
+  try {
+    const result = await handleRequest(options,searchInput);
+    return result;
+  } catch (error) {
+    console.error(error);
+    throw new Error('Internal Server Error');
+  }
+};
+
+export const getSuggestions  = async (searchInput) => {
+  try {
+    const products = await db.products.findAll({
+      attributes: ['name'],
+      where: {
+        [db.Sequelize.Op.or]: [
+          { name: { [db.Sequelize.Op.like]: `${searchInput}%` } },  // Match at the start
+          { name: { [db.Sequelize.Op.like]: `% ${searchInput}%` } } // Match after a space
+        ]
+      }
+    });
+    
+    const brands = await db.brands.findAll({
+      attributes: ['name'],
+      where: {
+        [db.Sequelize.Op.or]: [
+          { name: { [db.Sequelize.Op.like]: `${searchInput}%` } },  // Match at the start
+          { name: { [db.Sequelize.Op.like]: `% ${searchInput}%` } } // Match after a space
+        ]
+      }
+    });
+    return { products, brands };
   
-// ];
-// const commonAttributes = [
-//   'id',
-//   'name',
-//   'sub_title',
-//   'price',
-//   'createdAt',
-//   [db.sequelize.fn('AVG', db.sequelize.col('reviews.rating')), 'average_rating'],
-//   [db.sequelize.fn('COUNT', db.sequelize.col('reviews.rating')), 'rating_count'],
-// ];
-
-// export const commonSortOptions: Record<string, any> = {
-//   'price-high': [['price', 'DESC']],
-//   'price-low': [['price', 'ASC']],
-//   ratings: [[db.sequelize.fn('AVG', db.sequelize.col('reviews.rating')), 'DESC']],
-//   latest: [['createdAt', 'DESC']],
-//   popular: [[db.sequelize.fn('COUNT', db.sequelize.col('orderitems.product_id')), 'DESC']]
-// };
-
-// const handleRequest = async (, options: ProductQueryOptions) => {
-//   try {
- 
-//     const result = await db.products.findAll({
-//       subQuery: false,
-//       ...options,
-//       attributes: [...commonAttributes, ...(options.attributes || [])],
-//       include: [...commonInclude, ...(options.include || [])],
-//       order: sortOrder
-//     });
-
-//     return({
-//       totalItems: result.length,
-//       totalPages: Math.ceil(result.length / pageSize),
-//       currentPage: page,
-//       pageSize: pageSize,
-//       data: result.slice((page - 1) * pageSize, (page - 1) * pageSize + pageSize)
-//     });
-//   } catch (error) {
-//     return ({ error: 'Internal Server Error' });
-//   }
-// };
-
-
-
+  } catch (error) {
+    console.error(error);
+    throw new Error('Internal Server Error');
+  }}
 export const getProductDetails = async (requested_id) => {
     try {
       const details = await db.products.findOne({

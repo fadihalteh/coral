@@ -9,6 +9,8 @@ GET http://localhost:3000/category/handpicked
 ###
 GET http://localhost:3000/brand
 ###
+GET http://localhost:3000/brand/top
+###
 GET http://localhost:3000/brand/3/products
 ###
 GET http://localhost:3000/category/top
@@ -142,7 +144,7 @@ Authorization:a6fwkhr0gerk2n4iu7wn
 }
 
 ###
-GET http://localhost:3000/products/info/4
+GET http://localhost:3000/products/info/2
 ###
 GET http://localhost:3000/products/handpicked
 ###
@@ -156,7 +158,7 @@ GET http://localhost:3000/products/discount-15plus?pageSize=9&page=4
 ###
 GET http://localhost:3000/products/popular?pageSize=9&page=3
 ###
-GET http://localhost:3000/products?pageSize=9&page=3&sortBy=price-high
+GET http://localhost:3000/products?pageSize=9&page=1&sortBy=price-low&brandId=3
 ###
 
 POST   http://localhost:3000/orders
@@ -185,10 +187,10 @@ Authorization:d2zih6gwap7ie65c9i3k
 
 
 ###
-GET http://localhost:3000/search/suggestions?keyword=a
+GET http://localhost:3000/search/suggestions?keyword=h
 
 ###
-GET http://localhost:3000/search?keyword=fro
+GET http://localhost:3000/search?keyword=key
 
 ###
 GET http://localhost:3000/shopping-cart
@@ -239,7 +241,7 @@ Authorization:xav3bdotvybcjhfl4ux5
 
 
 ###
-GET http://158.176.7.102:3000/products/info/8
+GET http://158.176.7.102:3000/products/info/88
 ###
 GET http://158.176.7.102:3000/products/handpicked
 ###

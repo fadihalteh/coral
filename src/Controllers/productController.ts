@@ -593,154 +593,410 @@
 //    return res.status(500).json({ error: 'Internal Server Error' });
 //  }}
 
- import * as productService from '../Services/productService';
- import { Request, Response } from 'express';
-import db from '../Database/Models/index';
+//  import * as productService from '../Services/productService';
+//  import { Request, Response } from 'express';
+// import db from '../Database/Models/index';
 
-interface ProductQueryOptions {
-  attributes?: string[];
-  include?:any[];
-  where?: any;
-  group?: string[];
-  order?: any;
-  having?:any;
-}
+// interface ProductQueryOptions {
+//   attributes?: string[];
+//   include?:any[];
+//   where?: any;
+//   group?: string[];
+//   order?: any;
+//   having?:any;
+// }
 
-const commonAttributes = [
-  'id',
-  'name',
-  'sub_title',
-  'price',
-  'createdAt',
-  [db.sequelize.fn('AVG', db.sequelize.col('Reviews.rating')), 'average_rating'],
-  [db.sequelize.fn('COUNT', db.sequelize.col('Reviews.rating')), 'rating_count'],
-];
+// const commonAttributes = [
+//   'id',
+//   'name',
+//   'sub_title',
+//   'price',
+//   'createdAt',
+//   [db.sequelize.fn('AVG', db.sequelize.col('Reviews.rating')), 'average_rating'],
+//   [db.sequelize.fn('COUNT', db.sequelize.col('Reviews.rating')), 'rating_count'],
+//   [db.sequelize.fn('SUM', db.sequelize.col('OrderItems.quantity')),'sold_count'],
+// ];
 
-const commonInclude = [
-  {
-    model: db.reviews,
-    attributes: [],
-  },
-  {
-    model: db.discounts,
-    attributes: ['percentage'],
-  },
-  {
-    model: db.productsImages,
-    attributes: ['image_url'],
-    limit: 1,
-  },
-];
+// const commonInclude = [
+//   {
+//     model: db.reviews,
+//     attributes: [],
+//   },
+//   {
+//     model: db.discounts,
+//     attributes: ['percentage'],
+//   },
+//   {
+//     model: db.productsImages,
+//     attributes: ['image_url'],
+//     limit: 1,
+//   },
+//   {
+//     model: db.ordersItems,
+//     attributes: [
+//       // ... other attributes
+//       'id', // Add other non-aggregated columns here
+//       'product_id',
+//       // ... other attributes
+//     ],
+//     group: ['id', 'product_id', 'Product.id', 'Product.name', 'Product.sub_title', 'Product.price', 'Product.createdAt', 'Discount.id', 'Discount.percentage'],
+//   },
+// ];
 
-const commonSortOptions: Record<string, any> = {
-  'price-high': [['price', 'DESC']],
-  'price-low': [['price', 'ASC']],
-  'ratings': [[db.sequelize.fn('AVG', db.sequelize.col('Reviews.rating')), 'DESC']],
-  'latest': [['createdAt', 'DESC']],
-  'popular': [[db.sequelize.fn('AVG', db.sequelize.col('Reviews.rating')), 'DESC']],
+// const commonSortOptions: Record<string, any> = {
+//   'price-high': [['price', 'DESC']],
+//   'price-low': [['price', 'ASC']],
+//   'ratings': [[db.sequelize.fn('AVG', db.sequelize.col('Reviews.rating')), 'DESC']],
+//   'latest': [['createdAt', 'DESC']],
+//   'popular': [[db.sequelize.fn('SUM', db.sequelize.col('OrderItems.quantity')), 'DESC']],
+// };
+
+// const handleRequest = async (req: Request, res: Response, options: ProductQueryOptions) => {
+//   try {
+//     const sortBy = req.query.sortBy || 'ratings';
+//     const sortOrder = commonSortOptions[sortBy] || commonSortOptions['ratings'];
+
+//     const page = parseInt(req.query.page, 10) || 1;
+//     const pageSize = parseInt(req.query.pageSize, 10) || 9;
+
+//     const result = await db.products.findAll({
+//       subQuery: false,
+//       ...options,
+//       attributes: [...commonAttributes, ...(options.attributes || [])],
+//       include: [...commonInclude, ...(options.include || [])],
+//       order: sortOrder,
+//     });
+
+//     return res.status(200).json({
+//       totalItems: result.length,
+//       totalPages: Math.ceil(result.length / pageSize),
+//       currentPage: page,
+//       pageSize: pageSize,
+//       data: result.slice((page - 1) * pageSize,((page - 1) * pageSize)+pageSize),
+//     });
+//   } catch (error) {
+//     console.error(error);
+//     return res.status(500).json({ error: 'Internal Server Error' });
+//   }
+// };
+
+// export const getNewArrivals = async (req: Request, res: Response) => {
+//   const threeMonthsAgo = new Date();
+//   threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3);
+
+//   await handleRequest(req, res, {
+//     where: {
+//       createdAt: {
+//         [db.Sequelize.Op.gte]: threeMonthsAgo.toISOString(),
+//       },
+//     },
+//     group: ['id'],
+//     attributes: [],
+//     include: []
+//   });
+// };
+
+// export const getProducts = async (req: Request, res: Response) => {
+//   await handleRequest(req, res, {
+//     group: ['id'],
+//     attributes: [],
+//     include: []
+//   });
+// };
+
+// export const getLimitProducts = async (req: Request, res: Response) => {
+//   await handleRequest(req, res, {
+//     where: {
+//       stock_quantity: {
+//         [db.Sequelize.Op.lte]: 20,
+//       },
+//     },
+//     group: ['id'],
+//     attributes: [],
+//     include: []
+//   });
+// };
+
+// export const getDiscountPlusProducts = async (req: Request, res: Response) => {
+//   await handleRequest(req, res, {
+//     include: [
+//       {
+//         model: db.discounts,
+//         attributes: ['percentage'],
+//         where: {
+//           percentage: {
+//             [db.Sequelize.Op.gte]: 15,
+//           },
+//         },
+//       },
+//     ],
+//     group: ['id'],
+//     attributes: []
+//   });
+// };
+
+// export const getPopularProducts = async (req: Request, res: Response) => {
+//   await handleRequest(req, res, {
+//     group: ['id'],
+//     having: db.sequelize.where(db.sequelize.fn('AVG', db.sequelize.col('Reviews.rating')), '>', 4.5),
+//   });
+// };
+// export const handPickedProducts = async (req: Request, res: Response) => {
+//   await handleRequest(req, res, {
+//     where: {
+//       price: {
+//         [db.Sequelize.Op.lte]: 100
+//       }
+//     },
+//     group: ['id'],
+//     having: db.sequelize.where(db.sequelize.fn('AVG', db.sequelize.col('Reviews.rating')), '>', 4.5)
+//   });
+// };
+
+// export const getTrendyProducts = async (req: Request, res: Response) => {
+//   await handleRequest(req, res, {
+//     where: {
+//       price: {
+//         [db.Sequelize.Op.lte]: 100
+//       }
+//     },
+//     group: ['id'],
+//     having: db.sequelize.where(db.sequelize.fn('AVG', db.sequelize.col('Reviews.rating')), '>', 4.5)
+//   });
+// };
+
+
+// export const getTrendyProducts = async (req: Request, res: Response): Promise<void> => {
+//   try {
+//     const result = await db.products.findAll({
+//       attributes: [
+//         'id',
+//         'name',
+//         [db.Sequelize.fn('COUNT', db.Sequelize.col('orderitems.id')), 'sold'],
+//        [db.sequelize.fn('AVG', db.sequelize.col('Reviews.rating')), 'DESC'],
+//       ],
+//       include: [
+//         {
+//           model: db.ordersItems,
+//           attributes: [],
+//         },
+//         {
+//           model: db.discounts,
+//           attributes: ['percentage'],
+
+//         },
+//         {
+//           model: db.reviews,
+//           attributes: [],
+//           group:['product_id']
+//         },
+//       ],
+//       group: ['id'], 
+//       order: [[db.Sequelize.fn('COUNT', db.Sequelize.col('orderitems.id')), 'DESC']],
+//     });
+//     res.status(200).json(result);
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ error: 'Internal Server Error' });
+//   }
+// };
+
+// export const getTrendyProducts = async (req: Request, res: Response): Promise<void> => {
+//   try {
+//     const result = await db.products.findAll({
+//       attributes: [
+//         'id',
+//         'name',
+//         [db.Sequelize.fn('COUNT', db.Sequelize.col('orderitems.id')), 'sold'],
+//       ],
+//       include: [
+//         {
+//           model: db.ordersItems,
+//           attributes: [],
+//         },
+//         {
+//           model: db.discounts,
+//           attributes: ['percentage'],
+//         },
+//       ],
+//       group: ['id'], 
+//       order: [[db.Sequelize.fn('COUNT', db.Sequelize.col('orderitems.id')), 'DESC']],
+//     });
+//     res.status(200).json(result);
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ error: 'Internal Server Error' });
+//   }
+// };
+
+// export const getTrendyProducts = async (req: Request, res: Response): Promise<void> => {
+//   try {
+//     const result = await db.products.findAll({
+//       attributes: [
+//         [db.Sequelize.fn('COUNT', db.Sequelize.col('orderitems.id')), 'count'],
+//         'id',
+//         [db.Sequelize.fn('AVG', db.Sequelize.col('reviews.rating')), 'average_rating']
+//       ],
+//       include: [
+//         {
+//           model: db.ordersItems,
+//           attributes: [],
+//           duplicating: false,
+//           required: true,
+//           group: ['product_id'],
+//           order: [[db.Sequelize.fn('COUNT', db.Sequelize.col('orderitems.id')), 'DESC']]
+//         },
+//         {
+//           model: db.reviews,
+//           attributes: [],
+//           duplicating: false,
+//           required: true,
+//           group: ['product_id'],
+//           order: [[db.Sequelize.fn('AVG', db.Sequelize.col('reviews.rating')), 'DESC']]
+//         }
+//       ],
+//       group: ['Product.id'],
+//       order: [
+//         [db.Sequelize.fn('COUNT', db.Sequelize.col('orderitems.id')), 'DESC'],
+//         [db.Sequelize.fn('AVG', db.Sequelize.col('reviews.rating')), 'DESC']
+//       ],
+//       raw: true
+//     });
+//     res.status(200).json(result);
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ error: 'Internal Server Error' });
+//   }
+// };
+import { Request, Response } from 'express';
+import * as productService from '../Services/productService';
+
+// Helper function to generate common options
+export const generateOptions = (req: Request) => {
+  return {
+    sortBy: req.query.sortBy || 'ratings',
+    page: parseInt(req.query.page, 10) || 1,
+    pageSize: parseInt(req.query.pageSize, 10) || 9,
+    brandId : req.query.brandId as string | undefined,
+    categoryId : req.query.categoryId as string | undefined,
+  };
 };
 
-const handleRequest = async (req: Request, res: Response, options: ProductQueryOptions) => {
+export const getProducts = async (req: Request, res: Response) => {
   try {
-    const sortBy = req.query.sortBy || 'ratings';
-    const sortOrder = commonSortOptions[sortBy] || commonSortOptions['ratings'];
+    const options = {
+      group: ['id'],
+      attributes: [],
+      include: [],
+      ...generateOptions(req), // Merge common options
+    };
 
-    const page = parseInt(req.query.page, 10) || 1;
-    const pageSize = parseInt(req.query.pageSize, 10) || 9;
-
-    const result = await db.products.findAll({
-      subQuery: false,
-      ...options,
-      attributes: [...commonAttributes, ...(options.attributes || [])],
-      include: [...commonInclude, ...(options.include || [])],
-      order: sortOrder,
-    });
-
-    return res.status(200).json({
-      totalItems: result.length,
-      totalPages: Math.ceil(result.length / pageSize),
-      currentPage: page,
-      pageSize: pageSize,
-      data: result.slice((page - 1) * pageSize,((page - 1) * pageSize)+pageSize),
-    });
+    const result = await productService.getProducts(options);
+    res.status(200).json(result);
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ error: 'Internal Server Error' });
+    res.status(500).json({ error: 'Internal Server Error' });
   }
 };
 
 export const getNewArrivals = async (req: Request, res: Response) => {
-  const threeMonthsAgo = new Date();
-  threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3);
-
-  await handleRequest(req, res, {
-    where: {
-      createdAt: {
-        [db.Sequelize.Op.gte]: threeMonthsAgo.toISOString(),
+  try {
+    const options = {
+      where: {
+        createdAt: {
+          [productService.Sequelize.Op.gte]: new Date(new Date().setMonth(new Date().getMonth() - 3)),
+        },
       },
-    },
-    group: ['id'],
-    attributes: [],
-    include: []
-  });
-};
+      group: ['id'],
+      attributes: [],
+      include: [],
+      ...generateOptions(req), // Merge common options
+    };
 
-export const getProducts = async (req: Request, res: Response) => {
-  await handleRequest(req, res, {
-    group: ['id'],
-    attributes: [],
-    include: []
-  });
+    const result = await productService.getNewArrivals(options);
+    res.status(200).json(result);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
 };
 
 export const getLimitProducts = async (req: Request, res: Response) => {
-  await handleRequest(req, res, {
-    where: {
-      stock_quantity: {
-        [db.Sequelize.Op.lte]: 20,
+  try {
+    const options = {
+      where: {
+        stock_quantity: {
+          [productService.Sequelize.Op.lte]: 20,
+        },
       },
-    },
-    group: ['id'],
-    attributes: [],
-    include: []
-  });
+      group: ['id'],
+      attributes: [],
+      include: [],
+      ...generateOptions(req), // Merge common options
+    };
+
+    const result = await productService.getLimitProducts(options);
+    res.status(200).json(result);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
 };
 
 export const getDiscountPlusProducts = async (req: Request, res: Response) => {
-  await handleRequest(req, res, {
-    include: [
-      {
-        model: db.discounts,
-        attributes: ['percentage'],
-        where: {
-          percentage: {
-            [db.Sequelize.Op.gte]: 15,
-          },
-        },
-      },
-    ],
-    group: ['id'],
-    attributes: []
-  });
+  try {
+    const options = {
+      group: ['id'],
+      attributes: [],
+      include: [],
+      ...generateOptions(req)
+    };
+
+    const result = await productService.getDiscountPlusProducts(options);
+    res.status(200).json(result);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
 };
 
 export const getPopularProducts = async (req: Request, res: Response) => {
-  await handleRequest(req, res, {
-    group: ['id'],
-    having: db.sequelize.where(db.sequelize.fn('AVG', db.sequelize.col('Reviews.rating')), '>', 4.5),
-  });
+  try {
+    const options = {
+      group: ['id'],
+      having: productService.Sequelize.where(productService.Sequelize.fn('AVG', productService.Sequelize.col('Reviews.rating')), '>', 4.5),
+      ...generateOptions(req), // Merge common options
+    };
+
+    const result = await productService.getPopularProducts(options);
+    res.status(200).json(result);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
 };
+
 export const handPickedProducts = async (req: Request, res: Response) => {
-  await handleRequest(req, res, {
-    where: {
-      price: {
-        [db.Sequelize.Op.lte]: 100
-      }
-    },
-    group: ['id'],
-    having: db.sequelize.where(db.sequelize.fn('AVG', db.sequelize.col('Reviews.rating')), '>', 4.5)
-  });
+  try {
+    const options = {
+      where: {
+        price: {
+          [productService.Sequelize.Op.lte]: 100,
+        },
+      },
+      group: ['id'],
+      having: productService.Sequelize.where(productService.Sequelize.fn('AVG', productService.Sequelize.col('Reviews.rating')), '>', 4.5),
+      ...generateOptions(req), // Merge common 
+    };
+
+    const result = await productService.handPickedProducts(options);
+    res.status(200).json(result);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
 };
+
 
 export const getProductDetails = async (req: Request, res: Response): Promise<void> => {
   try {
@@ -751,3 +1007,4 @@ export const getProductDetails = async (req: Request, res: Response): Promise<vo
     res.status(statusCode).json({ error: error.message });
   }
 };
+

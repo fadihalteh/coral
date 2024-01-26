@@ -9,7 +9,7 @@ export const createUser = async (req: Request, res: Response): Promise<void> => 
       return res.status(400).json({ error: error.details[0].message });
     }
     const result = await userService.createUser(value);
-    res.status(200).json(result);
+    res.status(201).json(result);
   } catch (error: any) {
     const statusCode = error.code || 500;
     res.status(statusCode).json({ error: error.message });

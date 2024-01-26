@@ -1,7 +1,6 @@
 import express from 'express';
- import {getNewArrivals,getProducts,getLimitProducts,getDiscountPlusProducts,getPopularProducts,getProductDetails,handPickedProducts} from '../Controllers/productController';
+import {getNewArrivals,getProducts,getLimitProducts,getDiscountPlusProducts,getPopularProducts,getProductDetails,handPickedProducts} from '../Controllers/productController';
 const router = express.Router();
-//  import {getProductDetails} from '../Controllers/productController';
 
 router.get('/',getProducts);
 router.get('/new-arrivals',getNewArrivals);

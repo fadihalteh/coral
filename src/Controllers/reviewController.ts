@@ -19,7 +19,7 @@ export const postReview = async (req: Request, res: Response): Promise<void> => 
     }
 
     const newReview = await reviewService.addProductReview(req.session.user_id, product_id, value as ReviewItem);
-    res.status(200).json(newReview);
+    res.status(201).json(newReview);
   } catch (error: any) {
     const statusCode = error.code || 500;
     res.status(statusCode).json({ error: error.message });
