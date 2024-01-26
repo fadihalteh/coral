@@ -318,17 +318,9 @@ const generateFakeUser = () => {
         }
       };
     const generateFakeSession = (createdUsers) => {
-      // Calculate the expiry date 6 hours from now
-      const expiryDate = new Date();
-      expiryDate.setHours(expiryDate.getHours() + 6);
-  
-      // Format the expiry date as a string in ISO format
-      const formattedExpiryDate = expiryDate.toISOString();
-  
       return {
           session_key: faker.random.alphaNumeric(20),
           user_id: faker.random.arrayElement(createdUsers.map((user) => user.id)),
-          expiry_date: formattedExpiryDate,
       };
   };
   

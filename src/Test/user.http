@@ -3,8 +3,8 @@ POST http://localhost:3000/users/signup
 Content-Type: application/json
 
 {
-  "username": "ka22ijo",
-  "email": "wdwdww3e@example.com",
+  "username": "ka22ieejo",
+  "email": "wdwd33ww3e@example.com",
   "password": "Mh&55r58r55",
   "first_name": "John",
   "last_name": "Doe",
@@ -16,8 +16,8 @@ POST http://localhost:3000/users/signin
 Content-Type: application/json
 
 {
-  "email": "tr4333e@example.com",
-  "password": "Mh&5e5r58r55"
+  "email": "wdwd33ww3e@example.com",
+  "password": "Mh&55r58r55"
 }
 ###
 GET http://localhost:3000/users/signout 

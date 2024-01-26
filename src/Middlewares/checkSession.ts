@@ -1,12 +1,12 @@
 import { Request, Response,NextFunction } from 'express';
-
+import { Session } from '../Interfaces/userInterface';
 import * as userService from '../Services/userService';
 
 export const checkSessionKey = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
       const authorizationHeader = req.headers['authorization'];
 
-      const result = await userService.checkSessionKey(authorizationHeader);
+      const result = await userService.checkSessionKey(authorizationHeader) as Session ;
 
       if (!result) {
         throw {
@@ -15,10 +15,8 @@ export const checkSessionKey = async (req: Request, res: Response, next: NextFun
         };
       }
   
-      const currentDateTime = new Date();
-      const sessionExpiryDate = new Date(result.expiry_date);
   
-      if (currentDateTime > sessionExpiryDate) {
+      if (new Date() > result.expiry_date) {
         throw {
           code: 401,
           message: 'Session expired',

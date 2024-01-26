@@ -44,3 +44,12 @@ export interface UpdateUserDetailsInput {
   mobile: string;
   birth_date: string;
 }
+
+export interface Session {
+  id: number;
+  user_id: number;
+  session_key: string;
+  updatedAt: Date;
+  createdAt: Date;
+  expiry_date: Date;
+}

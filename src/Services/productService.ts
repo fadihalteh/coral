@@ -1,6 +1,6 @@
 import db from '../Database/Models/index';
 import { Op } from 'sequelize';
-import {ProductQueryOptions,ProductDetails,Product,PaginatedProductList} from '../Interfaces/productInterface'
+import {ProductQueryOptions,ProductDetails,SuggestionResult,Product,PaginatedProductList} from '../Interfaces/productInterface'
 
 
 const commonAttributes = [
@@ -85,12 +85,11 @@ const handleRequest = async (options: ProductQueryOptions,searchInput?:string) =
       include: [...commonInclude, ...(options.include || [])],
       order: sortOrder,
     });
-
     return {
-      totalItems: result.length ,
-      totalPages: Math.ceil(result.length / options.pageSize),
-      currentPage: options.page,
-      pageSize: options.pageSize,
+      totalItems: result.length as number ,
+      totalPages: Math.ceil(result.length / options.pageSize as number) as number,
+      currentPage: options.page as number,
+      pageSize: options.pageSize as number,
       data: result.slice((options.page - 1) * options.pageSize, (options.page - 1) * options.pageSize + options.pageSize),
     };
   } catch (error) {
@@ -99,7 +98,7 @@ const handleRequest = async (options: ProductQueryOptions,searchInput?:string) =
   }
 };
 
-export const getNewArrivals = async (options: ProductQueryOptions): Promise<Product> => {
+export const getNewArrivals = async (options: ProductQueryOptions): Promise<PaginatedProductList> => {
   try {
     const result = await handleRequest(options);
     return result;
@@ -109,7 +108,7 @@ export const getNewArrivals = async (options: ProductQueryOptions): Promise<Prod
   }
 };
 
-export const getProducts = async (options: ProductQueryOptions): Promise<Product> => {
+export const getProducts = async (options: ProductQueryOptions): Promise<PaginatedProductList> => {
   try {
     const result = await handleRequest(options);
     return result;
@@ -119,7 +118,7 @@ export const getProducts = async (options: ProductQueryOptions): Promise<Product
   }
 };
 
-export const getLimitProducts = async (options: ProductQueryOptions): Promise<Product> => {
+export const getLimitProducts = async (options: ProductQueryOptions): Promise<PaginatedProductList> => {
   try {
     const result = await handleRequest(options);
     return result;
@@ -129,7 +128,7 @@ export const getLimitProducts = async (options: ProductQueryOptions): Promise<Pr
   }
 };
 
-export const getDiscountPlusProducts = async (options: ProductQueryOptions): Promise<Product> => {
+export const getDiscountPlusProducts = async (options: ProductQueryOptions): Promise<PaginatedProductList> => {
   try {
     const include = [
       {
@@ -151,7 +150,7 @@ export const getDiscountPlusProducts = async (options: ProductQueryOptions): Pro
   }
 };
 
-export const getPopularProducts = async (options: ProductQueryOptions): Promise<Product> => {
+export const getPopularProducts = async (options: ProductQueryOptions): Promise<PaginatedProductList> => {
   try {
     const result = await handleRequest(options);
     return result;
@@ -161,7 +160,7 @@ export const getPopularProducts = async (options: ProductQueryOptions): Promise<
   }
 };
 
-export const handPickedProducts = async (options: ProductQueryOptions): Promise<Product> => {
+export const handPickedProducts = async (options: ProductQueryOptions): Promise<PaginatedProductList> => {
   try {
     const result = await handleRequest(options);
     return result;
@@ -171,7 +170,7 @@ export const handPickedProducts = async (options: ProductQueryOptions): Promise<
   }
 };
 
-export const getSearchResults  = async (options: ProductQueryOptions,searchInput): Promise<Product> => {
+export const getSearchResults  = async (options: ProductQueryOptions,searchInput): Promise<PaginatedProductList> => {
   try {
     const result = await handleRequest(options,searchInput);
     return result;
@@ -181,7 +180,7 @@ export const getSearchResults  = async (options: ProductQueryOptions,searchInput
   }
 };
 
-export const getSuggestions  = async (searchInput):Promise<String[]> => {
+export const getSuggestions  = async (searchInput):Promise<SuggestionResult> => {
   try {
     const products = await db.products.findAll({
       attributes: ['name'],

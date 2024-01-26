@@ -101,6 +101,8 @@ export interface PaginatedProductList {
   }
 
  export interface ProductQueryOptions {
+    brandId: any;
+    categoryId: any;
     where?: any;
     group?: string[];
     attributes?: string[];
@@ -114,3 +116,8 @@ export interface PaginatedProductList {
     error: string;
   }
   
+
+  export interface SuggestionResult {
+    products: { name: string }[];
+    brands: { name: string }[];
+  }

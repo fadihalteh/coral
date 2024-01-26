@@ -250,3 +250,29 @@ export const deleteUserAccount = async (
     }
   }
 };
+
+
+
+export const deleteExpiredSessions=async (): Promise<void>=>{
+  try {
+    // Find sessions that have already expired
+    const expiredSessions = await db.sessions.findAll({
+      where: {
+        expiry_date: { [db.Sequelize.Op.lt]: new Date() },
+      },
+    });
+
+    // Delete the expired sessions
+    await db.sessions.destroy({
+      where: {
+        expiry_date: { [db.Sequelize.Op.lt]: new Date() },
+      },
+    });
+
+    console.log(`${expiredSessions.length} expired sessions deleted.`);
+  } catch (error) {
+    throw new Error('Failed to delete expired sessions');
+  }
+}
+
+
