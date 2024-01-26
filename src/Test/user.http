@@ -3,8 +3,8 @@ POST http://localhost:3000/users/signup
 Content-Type: application/json
 
 {
-  "username": "ka22ieejo",
-  "email": "wdwd33ww3e@example.com",
+  "username": "ka22iessejo",
+  "email": "wdwd3ss3ww3e@example.com",
   "password": "Mh&55r58r55",
   "first_name": "John",
   "last_name": "Doe",
@@ -25,7 +25,7 @@ Authorization:0YDybsf1YaLHZ9efbt9Mr
 ###
 #INFORMATION
 GET http://localhost:3000/users/53
-Authorization:kwzpky4zboclst6klc45
+Authorization:jLt4vbZXmy23l0XfDBCG
 ###
 #UPDATE INFORMATION
 PUT http://localhost:3000/users/54

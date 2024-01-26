@@ -1,4 +1,3 @@
-
 module.exports = (sequelize, DataTypes) => {
     const Session = sequelize.define("Session", {
         session_key: {
@@ -15,10 +14,9 @@ module.exports = (sequelize, DataTypes) => {
             beforeCreate: (session) => {
                 const minutesLater = new Date(session.createdAt);
                 minutesLater.setMinutes(minutesLater.getMinutes() + 60);
-                 session.expiry_date = minutesLater;
-              },
+                session.expiry_date = minutesLater;
+            },
         },
     });
-
     return Session;
 };

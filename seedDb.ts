@@ -318,9 +318,13 @@ const generateFakeUser = () => {
         }
       };
     const generateFakeSession = (createdUsers) => {
+      const minutesLater = new Date();
+       minutesLater.setMinutes(minutesLater.getMinutes() + 60);
+                 
       return {
           session_key: faker.random.alphaNumeric(20),
           user_id: faker.random.arrayElement(createdUsers.map((user) => user.id)),
+          expiry_date : minutesLater
       };
   };
   

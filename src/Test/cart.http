@@ -1,6 +1,6 @@
 ### LOCALHOST
 GET http://localhost:3000/shopping-cart
-Authorization:kwzpky4zboclst6klc45
+Authorization:ucwzimuzuqe74870snn7
 ###
 POST http://localhost:3000/shopping-cart/add
 Content-Type: application/json
