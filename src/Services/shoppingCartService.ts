@@ -1,9 +1,25 @@
 import db from '../Database/Models/index';
-import { ShoppingCartItem, ErrorResponse } from '../Interfaces/shoppingCartInterface';
+import { ShoppingCartItem,ShoppingCart,ErrorResponse } from '../Interfaces/shoppingCartInterface';
 
-export const getUserShoppingCart = async (userId: number): Promise<ShoppingCartItem[] | ErrorResponse> => {
+export const getUserShoppingCart = async (userId: number): Promise<ShoppingCart[]|ErrorResponse > => {
   try {
-    const shoppingCartItems = await db.shoppingCarts.findAll({ where: { user_id: userId } });
+    const shoppingCartItems = await db.shoppingCarts.findAll({ where: { user_id: userId },
+      include: [
+        {
+          model: db.products,
+          attributes: ['name', 'price', 'sub_title'],
+          include: [
+            {
+              model: db.discounts,
+              attributes: ['percentage'],
+            },
+            {
+              model: db.productsImages,
+              attributes: ['image_url'],
+            },
+          ],
+        },
+      ], });
     return shoppingCartItems;
   } catch (error:any) {
     if (error.code) {

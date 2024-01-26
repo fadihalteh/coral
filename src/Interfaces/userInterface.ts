@@ -15,8 +15,7 @@ export interface Session {
 }
 
 export interface ErrorResponse<T = string> {
-  code: number;
-  message: T;
+  error: string;
 }
 
 export interface CreateUserInput {

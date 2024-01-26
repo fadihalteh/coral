@@ -1,10 +1,11 @@
 import db from '../Database/Models/index';
+import {Category,ErrorResponse} from '../Interfaces/categoryInterface'
 
-export const getAllCategories = async () => {
+export const getAllCategories = async (): Promise<Category | ErrorResponse> => {
     return await db.categories.findAll();
 };
 
-export const getHandpickedCategories = async () => {
+export const getHandpickedCategories = async (): Promise<Category | ErrorResponse> => {
     return await db.categories.findAll({
         where: {
             name: {
@@ -14,7 +15,7 @@ export const getHandpickedCategories = async () => {
     });
 };
 
-export const getTopCategories = async () => {
+export const getTopCategories = async (): Promise<Category | ErrorResponse> => {
     return await db.categories.findAll({
         where: {
             name: {
@@ -24,7 +25,7 @@ export const getTopCategories = async () => {
     });
 };
 
-export const getMobileCategories = async () => {
+export const getMobileCategories = async (): Promise<Category | ErrorResponse> => {
     return await db.categories.findAll({
         where: {
             name: {

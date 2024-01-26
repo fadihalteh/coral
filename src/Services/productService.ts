@@ -1,15 +1,7 @@
 import db from '../Database/Models/index';
 import { Op } from 'sequelize';
+import {ProductQueryOptions,ProductDetails,Product,PaginatedProductList} from '../Interfaces/productInterface'
 
-interface ProductQueryOptions {
-  where?: any;
-  group?: string[];
-  attributes?: string[];
-  include?: any[];
-  sortBy?: string;
-  page?: number;
-  pageSize?: number;
-}
 
 const commonAttributes = [
   'id',
@@ -56,7 +48,7 @@ const commonSortOptions: Record<string, any> = {
 
 export const Sequelize = db.Sequelize;
 
-const handleRequest = async (options: ProductQueryOptions,searchInput?) => {
+const handleRequest = async (options: ProductQueryOptions,searchInput?:string) => {
   try {
     const sortBy = options.sortBy || 'ratings';
     const sortOrder = commonSortOptions[sortBy] || commonSortOptions['ratings'];
@@ -95,7 +87,7 @@ const handleRequest = async (options: ProductQueryOptions,searchInput?) => {
     });
 
     return {
-      totalItems: result.length,
+      totalItems: result.length ,
       totalPages: Math.ceil(result.length / options.pageSize),
       currentPage: options.page,
       pageSize: options.pageSize,
@@ -107,7 +99,7 @@ const handleRequest = async (options: ProductQueryOptions,searchInput?) => {
   }
 };
 
-export const getNewArrivals = async (options: ProductQueryOptions) => {
+export const getNewArrivals = async (options: ProductQueryOptions): Promise<Product> => {
   try {
     const result = await handleRequest(options);
     return result;
@@ -117,7 +109,7 @@ export const getNewArrivals = async (options: ProductQueryOptions) => {
   }
 };
 
-export const getProducts = async (options: ProductQueryOptions) => {
+export const getProducts = async (options: ProductQueryOptions): Promise<Product> => {
   try {
     const result = await handleRequest(options);
     return result;
@@ -127,7 +119,7 @@ export const getProducts = async (options: ProductQueryOptions) => {
   }
 };
 
-export const getLimitProducts = async (options: ProductQueryOptions) => {
+export const getLimitProducts = async (options: ProductQueryOptions): Promise<Product> => {
   try {
     const result = await handleRequest(options);
     return result;
@@ -137,7 +129,7 @@ export const getLimitProducts = async (options: ProductQueryOptions) => {
   }
 };
 
-export const getDiscountPlusProducts = async (options: ProductQueryOptions) => {
+export const getDiscountPlusProducts = async (options: ProductQueryOptions): Promise<Product> => {
   try {
     const include = [
       {
@@ -159,7 +151,7 @@ export const getDiscountPlusProducts = async (options: ProductQueryOptions) => {
   }
 };
 
-export const getPopularProducts = async (options: ProductQueryOptions) => {
+export const getPopularProducts = async (options: ProductQueryOptions): Promise<Product> => {
   try {
     const result = await handleRequest(options);
     return result;
@@ -169,7 +161,7 @@ export const getPopularProducts = async (options: ProductQueryOptions) => {
   }
 };
 
-export const handPickedProducts = async (options: ProductQueryOptions) => {
+export const handPickedProducts = async (options: ProductQueryOptions): Promise<Product> => {
   try {
     const result = await handleRequest(options);
     return result;
@@ -179,7 +171,7 @@ export const handPickedProducts = async (options: ProductQueryOptions) => {
   }
 };
 
-export const getSearchResults  = async (options: ProductQueryOptions,searchInput) => {
+export const getSearchResults  = async (options: ProductQueryOptions,searchInput): Promise<Product> => {
   try {
     const result = await handleRequest(options,searchInput);
     return result;
@@ -189,7 +181,7 @@ export const getSearchResults  = async (options: ProductQueryOptions,searchInput
   }
 };
 
-export const getSuggestions  = async (searchInput) => {
+export const getSuggestions  = async (searchInput):Promise<String[]> => {
   try {
     const products = await db.products.findAll({
       attributes: ['name'],
@@ -216,7 +208,7 @@ export const getSuggestions  = async (searchInput) => {
     console.error(error);
     throw new Error('Internal Server Error');
   }}
-export const getProductDetails = async (requested_id) => {
+export const getProductDetails = async (requested_id):Promise<ProductDetails> => {
     try {
       const details = await db.products.findOne({
         attributes: [

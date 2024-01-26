@@ -1,7 +1,7 @@
 #WISHLIST LOCALHOST
 ####
 GET http://localhost:3000/wishlist
-Authorization:jwkrzaiagw2i22qc4wyo
+Authorization:D2nmCX5Hlm6VWkqQySEbgHFxUDz8G4
 ###
 DELETE  http://localhost:3000/wishlist
 Authorization:0LExz9in2mqO43v8eyjD

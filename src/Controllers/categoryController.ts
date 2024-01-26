@@ -12,7 +12,7 @@ export const getAllCategories = async (req: Request, res: Response) => {
     }
 };
 
-export const getHandpickedCategories = async (_req: Request, res: Response) => {
+export const getHandpickedCategories = async (req: Request, res: Response)=> {
     try {
         const categories = await categoryService.getHandpickedCategories();
         return res.status(200).json(categories);
@@ -22,7 +22,7 @@ export const getHandpickedCategories = async (_req: Request, res: Response) => {
     }
 };
 
-export const getTopCategories = async (_req: Request, res: Response) => {
+export const getTopCategories = async (req: Request, res: Response) => {
     try {
         const categories = await categoryService.getTopCategories();
         return res.status(200).json(categories);
@@ -32,7 +32,7 @@ export const getTopCategories = async (_req: Request, res: Response) => {
     }
 };
 
-export const getMobileCategories = async (_req: Request, res: Response) => {
+export const getMobileCategories = async (req: Request, res: Response) => {
     try {
         const categories = await categoryService.getMobileCategories();
         return res.status(200).json(categories);

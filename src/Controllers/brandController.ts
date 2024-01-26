@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import * as brandService from '../Services/brandService';
 
-export const getAllBrands = async (req: Request, res: Response) => {
+export const getAllBrands = async (req: Request, res: Response)=> {
     try {
         const brands = await brandService.getAllBrands();
         return res.status(200).json(brands);
@@ -11,7 +11,7 @@ export const getAllBrands = async (req: Request, res: Response) => {
     }
 };
 
-  export const getTopBrands = async (_req: Request, res: Response) => {
+  export const getTopBrands = async (req: Request, res: Response)=> {
     try {
         const brands = await brandService.getTopBrands();
         return res.status(200).json(brands);

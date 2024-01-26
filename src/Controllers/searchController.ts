@@ -4,7 +4,7 @@ import { Request, Response } from 'express';
 import {generateOptions} from './productController'
 
 
-export const getSearchResults = async (req: Request, res: Response): Promise<void> => {
+export const getSearchResults = async (req: Request, res: Response)=> {
   try {
     const searchInput = req.query.keyword;
     const options = {

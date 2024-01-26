@@ -4,8 +4,27 @@ import * as userService from '../Services/userService';
 
 export const checkSessionKey = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
-      // Call userService.checkSessionId with the session key from req.headers
-      const result = await userService.checkSessionKey(req.headers['authorization'] as string);
+      const authorizationHeader = req.headers['authorization'];
+
+      const result = await userService.checkSessionKey(authorizationHeader);
+
+      if (!result) {
+        throw {
+          code: 401,
+          message: 'Invalid session data',
+        };
+      }
+  
+      const currentDateTime = new Date();
+      const sessionExpiryDate = new Date(result.expiry_date);
+  
+      if (currentDateTime > sessionExpiryDate) {
+        throw {
+          code: 401,
+          message: 'Session expired',
+        };
+      }
+  
   
       // Set session in req if needed
       req.session = result;

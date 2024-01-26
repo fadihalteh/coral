@@ -1,10 +1,26 @@
 import db from '../Database/Models/index';
 
-import { WishlistItem, ErrorResponse } from '../Interfaces/wishlistInterface';
+import {Wishlist, WishlistItem, ErrorResponse } from '../Interfaces/wishlistInterface';
 
-export const getUserWishlist = async (userId: number): Promise<WishlistItem[] | ErrorResponse> => {
+export const getUserWishlist = async (userId: number): Promise<Wishlist[] | ErrorResponse> => {
   try {
-    const wishlists = await db.wishlists.findAll({ where: { user_id: userId } });
+    const wishlists = await db.wishlists.findAll({ where: { user_id: userId },
+      include: [
+        {
+          model: db.products,
+          attributes: ['name', 'price', 'sub_title'],
+          include: [
+            {
+              model: db.discounts,
+              attributes: ['percentage'],
+            },
+            {
+              model: db.productsImages,
+              attributes: ['image_url'],
+            },
+          ],
+        },
+      ], });
     return wishlists;
   } catch (error:any) {
     if (error.code) {

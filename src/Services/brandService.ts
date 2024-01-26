@@ -1,10 +1,10 @@
 import db from "../Database/Models/index";
-
-export const getAllBrands = async () => {
+import {Brand,ErrorResponse} from '../Interfaces/brandInterface'
+export const getAllBrands = async (): Promise<Brand | ErrorResponse> => {
   return await db.brands.findAll();
 };
 
-export const getTopBrands = async () => {
+export const getTopBrands = async (): Promise<Brand | ErrorResponse> => {
   return await db.brands.findAll({
     where: {
       name: {

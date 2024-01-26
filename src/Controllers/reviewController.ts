@@ -4,7 +4,7 @@ import { ReviewItem } from '../Interfaces/reviewInterface';
 import * as reviewService from '../Services/reviewService';
 import { reviewSchema } from '../Validators/reviewSchema';
 
-export const postReview = async (req: Request, res: Response): Promise<void> => {
+export const postReview = async (req: Request, res: Response) => {
   try {
     const { error, value } = reviewSchema.validate(req.body);
     if (error) {
@@ -26,7 +26,7 @@ export const postReview = async (req: Request, res: Response): Promise<void> => 
   }
 };
 
-export const updateReview = async (req: Request, res: Response): Promise<void> => {
+export const updateReview = async (req: Request, res: Response) => {
   try {
     const { error, value } = reviewSchema.validate(req.body);
     if (error) {
@@ -48,7 +48,7 @@ export const updateReview = async (req: Request, res: Response): Promise<void> =
   }
 };
 
-export const deleteReview = async (req: Request, res: Response): Promise<void> => {
+export const deleteReview = async (req: Request, res: Response) => {
   try {
     const product_id = req.params.product_id;
 
@@ -65,7 +65,7 @@ export const deleteReview = async (req: Request, res: Response): Promise<void> =
   }
 };
 
-export const getAllUserReviews = async (req: Request, res: Response): Promise<void> => {
+export const getAllUserReviews = async (req: Request, res: Response) => {
   try {
     const reviews = await reviewService.getAllUserReviews(req.session.user_id);
     res.status(200).json(reviews);
