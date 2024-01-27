@@ -101,3 +101,14 @@ export const deleteUserAccount = async (req: Request, res: Response) => {
     res.status(statusCode).json({ error: error.message });
   }
 };
+
+
+export const uploadProfileImage = async (req: Request, res: Response) => {
+  try {
+    const result = await userService.uploadProfileImage(req.session,req.file);
+    res.status(200).json(result);
+  } catch (error: any) {
+    const statusCode = error.code || 500;
+    res.status(statusCode).json({ error: error.message });
+  }
+};

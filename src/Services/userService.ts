@@ -1,4 +1,3 @@
-// userService.ts
 
 import {
   User,
@@ -11,8 +10,6 @@ import {
 } from "../Interfaces/userInterface";
 import db from "../Database/Models/index";
 import bcrypt from "bcrypt";
-
-// Function to generate a random string, if not already implemented
 import { generateRandomString } from "../Utils/utils";
 
 export const createUser = async (
@@ -251,6 +248,18 @@ export const deleteUserAccount = async (
   }
 };
 
+export const uploadProfileImage = async (session: Session,file): Promise<boolean | ErrorResponse> => {
+  try {
+    const updateImage = await db.users.update({ profile_image:`uploads/${file.filename}`}, { where: { id: session.user_id } });
+    return true;
+  } catch (error: any) {
+    if (error.code) {
+      throw { code: error.code, message: error.message };
+    } else {
+      throw { code: 500, message: "Internal Server Error" };
+    }
+  }
+};
 
 
 export const deleteExpiredSessions=async (): Promise<void>=>{

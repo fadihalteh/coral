@@ -12,5 +12,4 @@ cron.schedule('0 0 */10 * *', async () => {
     }
   });
   
-  // Keep the script running
   process.stdin.resume();
