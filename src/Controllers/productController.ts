@@ -1008,3 +1008,156 @@ export const getProductDetails = async (req: Request, res: Response): Promise<vo
   }
 };
 
+import db from '../Database/Models/index'
+// export const getTrendyProducts = async (req: Request, res: Response) => { 
+//   const result:any = await db.ordersItems.findAll({
+
+//   try {
+
+//    attributes: [
+//      'product_id',
+//      [db.sequelize.fn('COUNT', db.sequelize.col('*')), 'count'],
+//      [db.sequelize.fn('SUM', db.sequelize.col('quantity')), 'total_quantity']
+//    ],include: [
+//           {
+//             model: db.reviews,
+//             attributes: ['id','name','price',
+//                     [db.Sequelize.fn('AVG', db.Sequelize.col('reviews.rating')), 'average_rating']],
+//             include:[
+//             {
+//               model: db.reviews,
+//               attributes: [],
+//             },
+//             {
+//               model: db.discounts,
+//               attributes: ['percentage'],
+//             },
+//             {
+//               model: db.productsImages,
+//               attributes: ['image_url'],
+//             },
+            
+//           ],group: ['id'],}
+//         ],
+//    group: ['product_id'],
+//    order: [[db.sequelize.literal('count'), 'DESC']]
+// });
+
+//    res.status(200).json(result)
+//   }catch (error) {
+//     console.error(error);
+//     return res.status(500).json({ error: 'Internal Server Error' });
+//   }}
+
+// export const getTrendyProducts = async (req: Request, res: Response) => {
+//   try {
+//     const options = {
+//       group: ['id'],
+//       attributes: [],
+//       include: [],
+//       ...generateOptions(req), // Merge common options
+//     };
+
+//     const result = await productService.getProducts(options);
+
+// const productIds = result.data.map(product => product.id);
+
+// const result2 = await db.ordersItems.findAll({
+//   attributes: [
+//     'product_id',
+//     [db.sequelize.fn('COUNT', db.sequelize.col('*')), 'count'],
+//     [db.sequelize.fn('SUM', db.sequelize.col('quantity')), 'total_quantity']
+//   ],
+//   where: {
+//     product_id: {
+//       [db.Sequelize.Op.in]: productIds
+//     }
+//   },
+//   group: ['product_id']
+// });
+
+// const mappedResult = result.data.map(product => {
+//   const correspondingResult2 = result2.find(r => r.product_id === product.id) || {
+//     count: 0,
+//     total_quantity: 0
+//   };
+
+//   return {
+//     ...product,
+//     result2: correspondingResult2
+//   };
+// });
+
+// const finalResult = {
+//   totalItems: result.totalItems,
+//   totalPages: result.totalPages,
+//   currentPage: result.currentPage,
+//   pageSize: result.pageSize,
+//   data: mappedResult
+// };
+// console.log(finalResult)
+// res.status(200).json(finalResult);
+//   } catch (error) {
+//     console.error(error);
+//     return res.status(500).json({ error: 'Internal Server Error' });
+//   }
+// };
+export const getTrendyProducts = async (req: Request, res: Response) => {
+  try {
+    const options = {
+      group: ['id'],
+      attributes: [],
+      include: [],
+      ...generateOptions(req), // Merge common options
+    };
+
+    const result = await productService.getProducts(options);
+
+    const productIds = result.data.map(product => product.id);
+
+    const result2 = await db.ordersItems.findAll({
+      attributes: [
+        'product_id',
+        [db.sequelize.fn('COUNT', db.sequelize.col('*')), 'count'],
+        [db.sequelize.fn('SUM', db.sequelize.col('quantity')), 'total_quantity']
+      ],
+      where: {
+        product_id: {
+          [db.Sequelize.Op.in]: productIds
+        }
+      },
+      group: ['product_id']
+    });
+
+    const mappedResult = result.data.map(product => {
+      const correspondingResult2 = result2.find(r => r.product_id === product.id) || {
+        count: 0,
+        total_quantity: 0
+      };
+
+      return {
+        id: product.id,
+        name: product.name,
+        // Include only necessary properties from result2
+        result2: {
+          count: correspondingResult2.count,
+          total_quantity: correspondingResult2.total_quantity
+        }
+      };
+    });
+
+    const finalResult = {
+      totalItems: result.totalItems,
+      totalPages: result.totalPages,
+      currentPage: result.currentPage,
+      pageSize: result.pageSize,
+      data: mappedResult
+    };
+
+    console.log(finalResult);
+    res.status(200).json(finalResult);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
