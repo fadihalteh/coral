@@ -14,7 +14,7 @@ export const getSearchResults = async (req: Request, res: Response)=> {
       ...generateOptions(req), 
     };
 
-    const result = await productService.getSearchResults(options,searchInput);
+    const result = await productService.getSearchResults(options as any,searchInput);
 
     res.status(200).json(result);
   } catch (error) {

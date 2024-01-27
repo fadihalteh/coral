@@ -870,13 +870,13 @@
 // };
 import { Request, Response } from 'express';
 import * as productService from '../Services/productService';
+import {ProductQueryOptions} from '../Interfaces/productInterface'
 
-// Helper function to generate common options
 export const generateOptions = (req: Request) => {
   return {
     sortBy: req.query.sortBy || 'ratings',
-    page: parseInt(req.query.page, 10) || 1,
-    pageSize: parseInt(req.query.pageSize, 10) || 9,
+    page: parseInt(req.query.page as string, 10) || 1,
+    pageSize: parseInt(req.query.pageSize as string, 10) || 9,
     brandId : req.query.brandId as string | undefined,
     categoryId : req.query.categoryId as string | undefined,
   };
@@ -891,7 +891,7 @@ export const getProducts = async (req: Request, res: Response) => {
       ...generateOptions(req), // Merge common options
     };
 
-    const result = await productService.getProducts(options);
+    const result = await productService.getProducts(options as ProductQueryOptions);
     res.status(200).json(result);
   } catch (error) {
     console.error(error);
@@ -913,7 +913,7 @@ export const getNewArrivals = async (req: Request, res: Response) => {
       ...generateOptions(req), // Merge common options
     };
 
-    const result = await productService.getNewArrivals(options);
+    const result = await productService.getNewArrivals(options as ProductQueryOptions);
     res.status(200).json(result);
   } catch (error) {
     console.error(error);
@@ -935,7 +935,7 @@ export const getLimitProducts = async (req: Request, res: Response) => {
       ...generateOptions(req), // Merge common options
     };
 
-    const result = await productService.getLimitProducts(options);
+    const result = await productService.getLimitProducts(options as ProductQueryOptions);
     res.status(200).json(result);
   } catch (error) {
     console.error(error);
@@ -952,7 +952,7 @@ export const getDiscountPlusProducts = async (req: Request, res: Response) => {
       ...generateOptions(req)
     };
 
-    const result = await productService.getDiscountPlusProducts(options);
+    const result = await productService.getDiscountPlusProducts(options as ProductQueryOptions);
     res.status(200).json(result);
   } catch (error) {
     console.error(error);
@@ -968,7 +968,7 @@ export const getPopularProducts = async (req: Request, res: Response) => {
       ...generateOptions(req), // Merge common options
     };
 
-    const result = await productService.getPopularProducts(options);
+    const result = await productService.getPopularProducts(options as ProductQueryOptions);
     res.status(200).json(result);
   } catch (error) {
     console.error(error);
@@ -989,7 +989,7 @@ export const handPickedProducts = async (req: Request, res: Response) => {
       ...generateOptions(req), // Merge common 
     };
 
-    const result = await productService.handPickedProducts(options);
+    const result = await productService.handPickedProducts(options as ProductQueryOptions);
     res.status(200).json(result);
   } catch (error) {
     console.error(error);
@@ -1111,7 +1111,7 @@ export const getTrendyProducts = async (req: Request, res: Response) => {
       ...generateOptions(req), // Merge common options
     };
 
-    const result = await productService.getProducts(options);
+    const result = await productService.getProducts(options as ProductQueryOptions);
 
     const productIds = result.data.map(product => product.id);
 

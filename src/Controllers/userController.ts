@@ -1,7 +1,13 @@
 import { Request, Response } from 'express';
 import * as userService from '../Services/userService';
 import { createUserSchema, loginSchema, changePasswordSchema, changeUsernameSchema, updateUserSchema } from '../Validators/userSchema';
+import { Session } from '../Interfaces/userInterface';
 
+declare module 'express' {
+  interface Request {
+    session: Session;
+  }
+}
 export const createUser = async (req: Request, res: Response) => {
   try {
     const { error, value } = createUserSchema.validate(req.body);
