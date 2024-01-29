@@ -31,19 +31,4 @@ export const checkSessionKey = async (
     res.status(statusCode).json({ error: error.message });
   }
 };
-      if (!result) {
-        throw {
-          code: 401,
-          message: 'Invalid session data',
-        };
-      }
-
-      // Set session in req if needed
-      req.session = result;
-  
-      next();
-    } catch (error:any) {
-      const statusCode = error.code || 500;
-      res.status(statusCode).json({ error: error.message });
-    }
-  };
+      
