@@ -14,7 +14,7 @@ import bcrypt from "bcrypt";
   
 export const checkAdmin = async (
     sessionKey: string
-  ): Promise<Session | ErrorResponse> => {
+  ) => {
     try {
       const session = await db.adminSessions.findOne({
         where: { session_key: sessionKey },
@@ -83,7 +83,7 @@ export const createAdmin = async (
       const newSession = (await db.adminSessions.create({
         admin_id: newAdmin.id,
         session_key,
-      })) as Session;
+      })) ;
   
       return newSession;
     } catch (error: any) {
@@ -97,7 +97,7 @@ export const createAdmin = async (
   
   export const loginAdmin = async (
     input
-  ): Promise<Session | ErrorResponse> => {
+  ) => {
     const { email, password } = input;
   
     try {
@@ -132,8 +132,8 @@ export const createAdmin = async (
   };
   
   export const logoutAdmin = async (
-    session: Session
-  ): Promise<boolean | ErrorResponse> => {
+    session
+  ) => {
     try {
       await db.adminSessions.destroy({ where: { session_key: session.session_key } });
       return true;
@@ -151,8 +151,8 @@ export const createAdmin = async (
   
   export const changePassword = async (
     input: ChangePasswordInput,
-    session: Session
-  ): Promise<boolean | ErrorResponse> => {
+    session
+  ) => {
     try {
       const { currentPassword, newPassword } = input;
       const admin = await db.admins.findOne({
@@ -188,7 +188,7 @@ export const createAdmin = async (
   
   export const changeUsername = async (
     input: ChangeUsernameInput,
-    session: Session
+    session
   ): Promise<boolean | ErrorResponse> => {
     try {
       const { newUsername } = input;
@@ -215,8 +215,8 @@ export const createAdmin = async (
 
   
   export const updateAdminDetails = async (
-    input: UpdateUserDetailsInput,
-    session: Session
+    input,
+    session
   ): Promise<boolean | ErrorResponse> => {
     try {
       const { fullName,role} = input;
@@ -235,7 +235,7 @@ export const createAdmin = async (
   };
   
   export const deleteAdminAccount = async (
-    session: Session
+    session
   ): Promise<boolean | ErrorResponse> => {
     try {
       const admin = await db.admins.destroy({ where: { id: session.admin_id } });

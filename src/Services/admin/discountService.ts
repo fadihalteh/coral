@@ -69,7 +69,7 @@ export const applyDiscount = async (
     productId?: number,
     categoryId?: number,
     brandId?: number
-  ): Promise<Discount | ErrorResponse> => {
+  )=> {
     try {
       const discount = await db.discounts.findByPk(discountId);
   
