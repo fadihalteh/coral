@@ -3,8 +3,8 @@ POST http://localhost:3000/users/signup
 Content-Type: application/json
 
 {
-  "username": "ka22iessejo",
-  "email": "wdwd3ss3ww3e@example.com",
+  "username": "ka2fessejo",
+  "email": "wdwdwf3e@example.com",
   "password": "Mh&55r58r55",
   "first_name": "John",
   "last_name": "Doe",
@@ -25,7 +25,7 @@ Authorization:0YDybsf1YaLHZ9efbt9Mr
 ###
 #INFORMATION
 GET http://localhost:3000/users/53
-Authorization:Ks9dfJxuRKoZNXoie6yH
+Authorization:AkBvdnZFJCRbUFop4evQlghnAjr2ox
 ###
 #UPDATE INFORMATION
 PUT http://localhost:3000/users/54
@@ -69,8 +69,8 @@ POST http://158.176.7.102:3000/users/signup
 Content-Type: application/json
 
 {
-  "username": "t33yr",
-  "email": "tr4333e@example.com",
+  "username": "t33jbjjkbyr",
+  "email": "jjknnn@example.com",
   "password": "Mh&55r58r55",
   "first_name": "John",
   "last_name": "Doe",
@@ -82,21 +82,21 @@ POST http://158.176.7.102:3000/users/signin
 Content-Type: application/json
 
 {
-  "email": "tre@example.com",
+  "email": "jjknnn@example.com",
   "password": "Mh&55r58r55"
 }
 ###
 GET http://158.176.7.102:3000/users/signout 
-Authorization:xgrrkH3vkrfklzBsJ3M3jWcwJUhrhw 
+Authorization:VFj4M8AdnfvKWtpePZjqz7BwB4tLWX 
 ###
 #INFORMATION
 GET http://158.176.7.102:3000/users/53
-Authorization:1X63hhGJXtAvMFNS05ZD
+Authorization:Fvv8CcldmiDF9U5IZPd5
 ###
 #UPDATE INFORMATION
 PUT http://158.176.7.102:3000/users/54
 Content-Type: application/json
-Authorization:1X63hhGJXtAvMFNS05ZD
+Authorization:ZUbzQ3jHm5ZBfeWzUAa3
 
 {
   "first_name": "ukuukuku",

@@ -1,0 +1,3 @@
+GET  http://localhost:3000/admin/orders?brandId=2&status=completed
+Content-Type: application/json
+Authorization:fadi

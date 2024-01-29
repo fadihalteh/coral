@@ -122,9 +122,9 @@ export const checkSessionKey = async (
       where: { session_key: sessionKey },
     });
 
-    if (!session || session.expiry_date < new Date()) {
-      throw { code: 403, message: "Invalid session Key." };
-    }
+    // if (!session || session.expiry_date < new Date()) {
+    //   throw { code: 403, message: "Invalid session Key." };
+    // }
 
     return session;
   } catch (error: any) {

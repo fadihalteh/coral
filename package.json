@@ -18,7 +18,7 @@
   "scripts": {
     "start": "npm-run-all --parallel ts-node:cron-script ts-node:index",
     "ts-node:cron-script": "ts-node cron-script.ts",
-    "ts-node:index": "tsx watch index.ts",
+    "ts-node:index": "tsx watch --inspect index.ts",
     "start:cron": "node build/cron-script.js",
     "build": "rm -rf build/ && tsc && cp package.json ./build/ && npm run copy-assets",
     "copy-assets": "ncp src/Images build/src/Images",

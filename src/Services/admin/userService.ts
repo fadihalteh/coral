@@ -107,7 +107,13 @@ export const getUsers = async (filters: any) => {
     
       }
     };
-
+    interface FilterOptions {
+      id: number;
+      startDate: Date;
+      endDate: Date;
+    }
+    
+   
 // interface UserQueryOptions {
 //   sortBy?: string;
 //   attributes?: string[];

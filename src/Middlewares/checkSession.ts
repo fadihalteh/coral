@@ -20,9 +20,9 @@ export const checkSessionKey = async (
     const result = (await userService.checkSessionKey(
       authorizationHeader
     )) as Session;
-    if (result && result.expiry_date > new Date()) {
-      // If the session is valid, update the expiration date in the database
-      await userService.extendSessionExpiry(authorizationHeader);}
+    // if (result && result.expiry_date > new Date()) {
+    //   // If the session is valid, update the expiration date in the database
+    //   await userService.extendSessionExpiry(authorizationHeader);}
     req.session = result;
 
     next();
