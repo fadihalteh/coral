@@ -41,14 +41,14 @@ export const updateProductReview = async (userId: number, productId: number, rev
   }
 };
 
-export const deleteProductReview = async (userId: number, productId: number): Promise<boolean | ErrorResponse> => {
+export const deleteProductReview = async (user_id: number, product_id: number): Promise<boolean | ErrorResponse> => {
   try {
-    const existingReview = await db.reviews.findOne({ where: { user_id: userId, product_id: productId } });
+    const existingReview = await db.reviews.findOne({ where: { user_id, product_id } });
     if (!existingReview) {
       throw { code: 404, message: 'User review for this product not found' };
     }
 
-    await db.reviews.destroy({ where: { user_id: userId, product_id: productId } });
+    await db.reviews.destroy({ where: { user_id, product_id } });
     return true;
   } catch (error:any) {
     if (error.code) {

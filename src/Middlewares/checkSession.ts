@@ -1,30 +1,43 @@
-import { Request, Response,NextFunction } from 'express';
-import { Session } from '../Interfaces/userInterface';
-import * as userService from '../Services/userService';
+import { Request, Response, NextFunction } from "express";
 
-export const checkSessionKey = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-    try {
-      const authorizationHeader = req.headers['authorization'];
+import * as userService from "../Services/userService";
+import { Session } from "../Interfaces/userInterface";
 
-      const result = await userService.checkSessionKey(authorizationHeader) as Session ;
+export const checkSessionKey = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
+  try {
+    const authorizationHeader = req.headers["authorization"];
 
+    if (!authorizationHeader) {
+      throw {
+        code: 401,
+        message: "Authorization header is missing",
+      };
+    }
+    const result = (await userService.checkSessionKey(
+      authorizationHeader
+    )) as Session;
+    // if (result && result.expiry_date > new Date()) {
+    //   // If the session is valid, update the expiration date in the database
+    //   await userService.extendSessionExpiry(authorizationHeader);}
+    req.session = result;
+
+    next();
+  } catch (error: any) {
+    const statusCode = error.code || 500;
+    res.status(statusCode).json({ error: error.message });
+  }
+};
       if (!result) {
         throw {
           code: 401,
           message: 'Invalid session data',
         };
       }
-  
-  // const twoHoursAgo = new Date(Date.now() - (2 * 60 * 60 * 1000));
 
-  //     if (twoHoursAgo > result.expiry_date) {
-  //       throw {
-  //         code: 401,
-  //         message: 'Session expired',
-  //       };
-  //     }
-  
-  
       // Set session in req if needed
       req.session = result;
   

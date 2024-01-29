@@ -2,11 +2,11 @@
 #REVIEWS LOCALHOST
 ###
 GET http://localhost:3000/reviews
-Authorization:ndnj7jbbd2h46jx46ush
+Authorization:DXAq9VfPtloocEVPsNhO
 ###
 POST http://localhost:3000/reviews/4
 Content-Type: application/json
-Authorization:ndnj7jbbd2h46jx46ush
+Authorization:DXAq9VfPtloocEVPsNhO
 
 {
   "rating":5,
@@ -14,17 +14,17 @@ Authorization:ndnj7jbbd2h46jx46ush
 }
 
 ###
-PUT http://localhost:3000/reviews/111
+PUT http://localhost:3000/reviews/4
 Content-Type: application/json
-Authorization:ndnj7jbbd2h46jx46ush
+Authorization:DXAq9VfPtloocEVPsNhO
 
 {
   "rating":1,
   "comment":"Mh&"
 }
 ###
-DELETE http://localhost:3000/reviews/1
-Authorization:a6fwkhr0gerk2n4iu7wn
+DELETE http://localhost:3000/reviews/4
+Authorization:DXAq9VfPtloocEVPsNhO
 
 
 

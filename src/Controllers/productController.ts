@@ -870,13 +870,13 @@
 // };
 import { Request, Response } from 'express';
 import * as productService from '../Services/productService';
+import {ProductQueryOptions} from '../Interfaces/productInterface'
 
-// Helper function to generate common options
 export const generateOptions = (req: Request) => {
   return {
     sortBy: req.query.sortBy || 'ratings',
-    page: parseInt(req.query.page, 10) || 1,
-    pageSize: parseInt(req.query.pageSize, 10) || 9,
+    page: parseInt(req.query.page as string, 10) || 1,
+    pageSize: parseInt(req.query.pageSize as string, 10) || 9,
     brandId : req.query.brandId as string | undefined,
     categoryId : req.query.categoryId as string | undefined,
   };
@@ -891,7 +891,7 @@ export const getProducts = async (req: Request, res: Response) => {
       ...generateOptions(req), // Merge common options
     };
 
-    const result = await productService.getProducts(options);
+    const result = await productService.getProducts(options as ProductQueryOptions);
     res.status(200).json(result);
   } catch (error) {
     console.error(error);
@@ -913,7 +913,7 @@ export const getNewArrivals = async (req: Request, res: Response) => {
       ...generateOptions(req), // Merge common options
     };
 
-    const result = await productService.getNewArrivals(options);
+    const result = await productService.getNewArrivals(options as ProductQueryOptions);
     res.status(200).json(result);
   } catch (error) {
     console.error(error);
@@ -935,7 +935,7 @@ export const getLimitProducts = async (req: Request, res: Response) => {
       ...generateOptions(req), // Merge common options
     };
 
-    const result = await productService.getLimitProducts(options);
+    const result = await productService.getLimitProducts(options as ProductQueryOptions);
     res.status(200).json(result);
   } catch (error) {
     console.error(error);
@@ -952,7 +952,7 @@ export const getDiscountPlusProducts = async (req: Request, res: Response) => {
       ...generateOptions(req)
     };
 
-    const result = await productService.getDiscountPlusProducts(options);
+    const result = await productService.getDiscountPlusProducts(options as ProductQueryOptions);
     res.status(200).json(result);
   } catch (error) {
     console.error(error);
@@ -968,7 +968,7 @@ export const getPopularProducts = async (req: Request, res: Response) => {
       ...generateOptions(req), // Merge common options
     };
 
-    const result = await productService.getPopularProducts(options);
+    const result = await productService.getPopularProducts(options as ProductQueryOptions);
     res.status(200).json(result);
   } catch (error) {
     console.error(error);
@@ -989,7 +989,7 @@ export const handPickedProducts = async (req: Request, res: Response) => {
       ...generateOptions(req), // Merge common 
     };
 
-    const result = await productService.handPickedProducts(options);
+    const result = await productService.handPickedProducts(options as ProductQueryOptions);
     res.status(200).json(result);
   } catch (error) {
     console.error(error);
@@ -1008,3 +1008,156 @@ export const getProductDetails = async (req: Request, res: Response): Promise<vo
   }
 };
 
+import db from '../Database/Models/index'
+// export const getTrendyProducts = async (req: Request, res: Response) => { 
+//   const result:any = await db.ordersItems.findAll({
+
+//   try {
+
+//    attributes: [
+//      'product_id',
+//      [db.sequelize.fn('COUNT', db.sequelize.col('*')), 'count'],
+//      [db.sequelize.fn('SUM', db.sequelize.col('quantity')), 'total_quantity']
+//    ],include: [
+//           {
+//             model: db.reviews,
+//             attributes: ['id','name','price',
+//                     [db.Sequelize.fn('AVG', db.Sequelize.col('reviews.rating')), 'average_rating']],
+//             include:[
+//             {
+//               model: db.reviews,
+//               attributes: [],
+//             },
+//             {
+//               model: db.discounts,
+//               attributes: ['percentage'],
+//             },
+//             {
+//               model: db.productsImages,
+//               attributes: ['image_url'],
+//             },
+            
+//           ],group: ['id'],}
+//         ],
+//    group: ['product_id'],
+//    order: [[db.sequelize.literal('count'), 'DESC']]
+// });
+
+//    res.status(200).json(result)
+//   }catch (error) {
+//     console.error(error);
+//     return res.status(500).json({ error: 'Internal Server Error' });
+//   }}
+
+// export const getTrendyProducts = async (req: Request, res: Response) => {
+//   try {
+//     const options = {
+//       group: ['id'],
+//       attributes: [],
+//       include: [],
+//       ...generateOptions(req), // Merge common options
+//     };
+
+//     const result = await productService.getProducts(options);
+
+// const productIds = result.data.map(product => product.id);
+
+// const result2 = await db.ordersItems.findAll({
+//   attributes: [
+//     'product_id',
+//     [db.sequelize.fn('COUNT', db.sequelize.col('*')), 'count'],
+//     [db.sequelize.fn('SUM', db.sequelize.col('quantity')), 'total_quantity']
+//   ],
+//   where: {
+//     product_id: {
+//       [db.Sequelize.Op.in]: productIds
+//     }
+//   },
+//   group: ['product_id']
+// });
+
+// const mappedResult = result.data.map(product => {
+//   const correspondingResult2 = result2.find(r => r.product_id === product.id) || {
+//     count: 0,
+//     total_quantity: 0
+//   };
+
+//   return {
+//     ...product,
+//     result2: correspondingResult2
+//   };
+// });
+
+// const finalResult = {
+//   totalItems: result.totalItems,
+//   totalPages: result.totalPages,
+//   currentPage: result.currentPage,
+//   pageSize: result.pageSize,
+//   data: mappedResult
+// };
+// console.log(finalResult)
+// res.status(200).json(finalResult);
+//   } catch (error) {
+//     console.error(error);
+//     return res.status(500).json({ error: 'Internal Server Error' });
+//   }
+// };
+export const getTrendyProducts = async (req: Request, res: Response) => {
+  try {
+    const options = {
+      group: ['id'],
+      attributes: [],
+      include: [],
+      ...generateOptions(req), // Merge common options
+    };
+
+    const result = await productService.getProducts(options as ProductQueryOptions);
+
+    const productIds = result.data.map(product => product.id);
+
+    const result2 = await db.ordersItems.findAll({
+      attributes: [
+        'product_id',
+        [db.sequelize.fn('COUNT', db.sequelize.col('*')), 'count'],
+        [db.sequelize.fn('SUM', db.sequelize.col('quantity')), 'total_quantity']
+      ],
+      where: {
+        product_id: {
+          [db.Sequelize.Op.in]: productIds
+        }
+      },
+      group: ['product_id']
+    });
+
+    const mappedResult = result.data.map(product => {
+      const correspondingResult2 = result2.find(r => r.product_id === product.id) || {
+        count: 0,
+        total_quantity: 0
+      };
+
+      return {
+        id: product.id,
+        name: product.name,
+        // Include only necessary properties from result2
+        result2: {
+          count: correspondingResult2.count,
+          total_quantity: correspondingResult2.total_quantity
+        }
+      };
+    });
+
+    const finalResult = {
+      totalItems: result.totalItems,
+      totalPages: result.totalPages,
+      currentPage: result.currentPage,
+      pageSize: result.pageSize,
+      data: mappedResult
+    };
+
+    console.log(finalResult);
+    res.status(200).json(finalResult);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
