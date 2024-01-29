@@ -23,7 +23,7 @@ module.exports = (sequelize, DataTypes) => {
             beforeCreate: (session) => {
                 // Set expiry_date to 60 minutes after createdAt
                 const minutesLater = new Date(session.createdAt);
-                minutesLater.setMinutes(minutesLater.getMinutes() + 1);
+                minutesLater.setMinutes(minutesLater.getMinutes() + 60);
                 
                 // Format the date as a string
                 session.expiry_date = minutesLater;
