@@ -15,14 +15,14 @@ export const checkSessionKey = async (req: Request, res: Response, next: NextFun
         };
       }
   
-  const twoHoursAgo = new Date(Date.now() - (2 * 60 * 60 * 1000));
+  // const twoHoursAgo = new Date(Date.now() - (2 * 60 * 60 * 1000));
 
-      if (twoHoursAgo > result.expiry_date) {
-        throw {
-          code: 401,
-          message: 'Session expired',
-        };
-      }
+  //     if (twoHoursAgo > result.expiry_date) {
+  //       throw {
+  //         code: 401,
+  //         message: 'Session expired',
+  //       };
+  //     }
   
   
       // Set session in req if needed
