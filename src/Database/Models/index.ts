@@ -42,6 +42,9 @@ db.discounts = require("./discount")(sequelize, DataTypes);
 db.productsImages = require("./productImage")(sequelize, DataTypes);
 db.shoppingCarts = require("./shoppingCart")(sequelize, DataTypes);
 db.sessions = require("./session")(sequelize, DataTypes);
+db.admins = require("./admin")(sequelize, DataTypes);
+db.adminSessions = require("./adminSession")(sequelize, DataTypes);
+
 
 // User relations
 db.addresses.belongsTo(db.users, {
@@ -145,6 +148,13 @@ db.ordersItems.belongsTo(db.orders, {
 });
 db.addresses.hasMany(db.orders, {
   foreignKey: { name: "address_id", allowNull: true },
+});
+// admin 
+db.adminSessions.belongsTo(db.admins, {
+  foreignKey: { name: "admin_id", allowNull: false },
+});
+db.admins.hasMany(db.adminSessions, {
+  foreignKey: { name: "admin_id", allowNull: true },
 });
 
 // Sync the s with the database

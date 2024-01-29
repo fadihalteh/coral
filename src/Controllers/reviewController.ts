@@ -11,7 +11,7 @@ export const postReview = async (req: Request, res: Response) => {
       return res.status(400).json({ error: error.details[0].message });
     }
 
-    const product_id = req.params.product_id;
+    const product_id = parseInt(req.params.product_id);
 
     const existingProduct = await db.products.findOne({ where: { id: product_id } });
     if (!existingProduct) {

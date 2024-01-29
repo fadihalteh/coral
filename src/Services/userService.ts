@@ -10,7 +10,7 @@ import {
 } from "../Interfaces/userInterface";
 import db from "../Database/Models/index";
 import bcrypt from "bcrypt";
-import { generateRandomString } from "../Utils/utils";
+import { generateRandomString ,minutesToMilliseconds} from "../Utils/utils";
 
 export const createUser = async (
   input: CreateUserInput
@@ -284,4 +284,18 @@ export const deleteExpiredSessions=async (): Promise<void>=>{
   }
 }
 
+
+export const extendSessionExpiry = async (sessionKey: string): Promise<void> => {
+  try {
+    const newExpiryDate = new Date(Date.now() + minutesToMilliseconds(60));
+    // Find the session in the database and update its expiry date
+    await db.sessions.update(
+      { expiry_date: newExpiryDate },
+      { where: { session_key: sessionKey } }
+    );
+  } catch (error: any) {
+    // Handle any errors during the update
+    throw { code: 500, message: "Internal Server Error" };
+  }
+};
 

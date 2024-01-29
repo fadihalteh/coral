@@ -1,0 +1,2 @@
+GET http://localhost:3000/admin/users?createdStartDate=1962-12-27&createdEndDate=2024-01-28 
+Authorization:0YDybsf1YaLHZ9efbt9Mr

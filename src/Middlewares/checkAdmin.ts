@@ -1,9 +1,10 @@
+
 import { Request, Response, NextFunction } from "express";
 
-import * as userService from "../Services/userService";
+import * as adminService from "../Services/admin/adminService";
 import { Session } from "../Interfaces/userInterface";
 
-export const checkSessionKey = async (
+export const checkAdmin = async (
   req: Request,
   res: Response,
   next: NextFunction
@@ -17,12 +18,12 @@ export const checkSessionKey = async (
         message: "Authorization header is missing",
       };
     }
-    const result = (await userService.checkSessionKey(
+    const result = (await adminService.checkAdmin(
       authorizationHeader
     )) as Session;
     if (result && result.expiry_date > new Date()) {
       // If the session is valid, update the expiration date in the database
-      await userService.extendSessionExpiry(authorizationHeader);}
+      await adminService.extendSessionExpiry(authorizationHeader);}
     req.session = result;
 
     next();
