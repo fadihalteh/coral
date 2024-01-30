@@ -48,6 +48,12 @@ export const generateOptions = (req: Request) => {
       country: req.query.country || null,
       city: req.query.city || null,
       postal_code: req.query.postal_code || null,
+      minAge:req.query.minAge || null,
+      maxAge:req.query.maxAge || null,
+      createdStartDate:req.query.createdStartDate || null,
+      createdEndDate:req.query.createdEndDate || null,
+      loginStartDate:req.query.loginStartDate || null,
+      loginEndDate:req.query.loginEndDate || null,
     };
   
     // Remove properties with null values
@@ -62,7 +68,7 @@ export const generateOptions = (req: Request) => {
       // Ensure that the options object is not empty
       const result = Object.keys(options).length > 0 ? await userService.getUsers(options) : await userService.getUsers(null);
   
-      res.status(200).json(result);
+      res.status(200).json({NumberOfUsers:result.length,result});
     } catch (error) {
       console.error(error);
       res.status(500).json({ error: 'Internal Server Error' });

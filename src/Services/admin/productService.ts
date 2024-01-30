@@ -52,3 +52,5 @@ interface ProductData {
       throw new Error(`Error in deleteProduct: ${error.message}`);
     }
   };
+
+  

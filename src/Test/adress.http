@@ -1,9 +1,9 @@
 
 GET http://localhost:3000/addresses
-Authorization:yj7xu3d0d8x0eoi5n30n
+Authorization:eafi0uispesac0o2wrqx
 ###
-GET http://localhost:3000/addresses/101
-Authorization:zG3vLifO2bXQHANGTiZNCdA43SZZDe
+GET http://localhost:3000/addresses/15
+Authorization:eafi0uispesac0o2wrqx
 ###
 POST http://localhost:3000/addresses
 Content-Type: application/json
@@ -21,9 +21,9 @@ Authorization:zG3vLifO2bXQHANGTiZNCdA43SZZDe
 }
 
 ###
-PUT http://localhost:3000/addresses/107
+PUT http://localhost:3000/addresses/7
 Content-Type: application/json
-Authorization:zG3vLifO2bXQHANGTiZNCdA43SZZDe
+Authorization:eafi0uispesac0o2wrqx
 
 {
   "city": "hrhrhrh",

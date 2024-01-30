@@ -3,7 +3,7 @@ module.exports = (sequelize, DataTypes) => {
         session_key: {
             type: DataTypes.STRING,
             allowNull: false,
-            unique: true,
+            unique: 'session_key',
         },
         expiry_date: {
             type: DataTypes.DATE,

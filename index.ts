@@ -30,7 +30,7 @@ app.use('/uploads', express.static('uploads'));
 app.use('/Images',express.static('./src/Images'))
 app.use('/Images',express.static('./src/images'))
 app.use('/users', usersRoute);
-app.use('/addresses',checkSessionKey, addressesRoute);
+app.use('/addresses',checkSessionKey,addressesRoute);
 app.use('/reviews',checkSessionKey,reviewsRoute);
 app.use('/products', productRoute);
 app.use('/category', categoryRoute);

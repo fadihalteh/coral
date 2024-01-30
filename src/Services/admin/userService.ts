@@ -1,4 +1,4 @@
-import { Op } from 'sequelize';
+import { Op, Sequelize } from 'sequelize';
 import  db  from '../../Database/Models/index';
 
 const calculateAge = (birthDate) => {
@@ -62,23 +62,42 @@ const applyCreatedAtFilter = (filters) => {
   return {};
 };
 
+// const applyLoginSessionFilter = (filters) => {
+//   if (filters.loginStartDate && filters.loginEndDate) {
+//     return {
+//       model: db.sessions,
+//       attributes: [],
+//       where: {
+//         session_key: { [Op.not]: null },
+//         expiry_date: {
+//           [Op.between]: [new Date(filters.loginStartDate), new Date(filters.loginEndDate)],
+//         },
+//       },
+//     };
+//   }
+
+//   return {};
+// };
 const applyLoginSessionFilter = (filters) => {
   if (filters.loginStartDate && filters.loginEndDate) {
     return {
       model: db.sessions,
-      attributes: [],
+      attributes: [
+        [Sequelize.literal("DATE(created_at)"), "loginDay"],
+        [Sequelize.literal("COUNT(DISTINCT user_id)"), "visitorCount"]
+      ],
       where: {
         session_key: { [Op.not]: null },
-        expiry_date: {
+        created_at: {
           [Op.between]: [new Date(filters.loginStartDate), new Date(filters.loginEndDate)],
         },
       },
+      group: [Sequelize.literal("DATE(created_at)")],
     };
   }
 
   return {};
 };
-
 export const getUsers = async (filters: any) => {
       try {
         console.log('Created At Filter:', applyCreatedAtFilter(filters));

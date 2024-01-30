@@ -1,5 +1,42 @@
 POST http://localhost:3000/orders
-Authorization: yj7xu3d0d8x0eoi5n30n
+Authorization: 4rpvjk2krzslmysvegcp
+Content-Type: application/json
+
+{
+  "order_address": {
+    "city": "Berlin",
+    "phone": "2595565892",
+    "street": "stugt St",
+    "country": "Germany",
+    "postal_code": "59784",
+    "address_line1": "ELK GROVE CA 95758",
+    "address_line2": " CA 95758"
+  },
+  "payment_method": "Credit Card"
+}
+###
+GET http://localhost:3000/orders/info/11
+Authorization: u07bkqwce3u7ffvspmxp
+
+###
+GET http://localhost:3000/orders
+Authorization: u07bkqwce3u7ffvspmxp
+###
+
+
+POST http://localhost:3000/orders/reorder/156
+Authorization: zG3vLifO2bXQHANGTiZNCdA43SZZDe
+###
+
+PUT http://localhost:3000/orders/156/cancel
+Authorization: zG3vLifO2bXQHANGTiZNCdA43SZZDe
+###
+
+
+
+
+POST http://158.176.7.102:3000/orders
+Authorization: 0axdBIkuqBZltVkbwGkq
 Content-Type: application/json
 
 {
@@ -17,19 +54,19 @@ Content-Type: application/json
   "payment_method": "Credit Card"
 }
 ###
-GET http://localhost:3000/orders/info/1
+GET http://158.176.7.102:3000/orders/info/1
 Authorization: zG3vLifO2bXQHANGTiZNCdA43SZZDe
 
 ###
-GET http://localhost:3000/orders
-Authorization: yj7xu3d0d8x0eoi5n30n
+GET http://158.176.7.102:3000/orders
+Authorization: eb9azj7s25ua77kyinkm
 ###
 
 
-POST http://localhost:3000/orders/reorder/156
+POST http://158.176.7.102:3000/orders/reorder/156
 Authorization: zG3vLifO2bXQHANGTiZNCdA43SZZDe
 ###
 
-PUT http://localhost:3000/orders/156/cancel
+PUT http://158.176.7.102:3000/orders/156/cancel
 Authorization: zG3vLifO2bXQHANGTiZNCdA43SZZDe
 ###

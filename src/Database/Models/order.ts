@@ -5,7 +5,7 @@ module.exports = (sequelize, DataTypes) => {
       order_number: {
         type: DataTypes.STRING,
         allowNull: false,
-        unique: true,
+        unique: 'order_number',
         validate: {
           isValidOrderNumber(value) {
             if (!/^#\d{9}$/.test(value)) {
@@ -34,8 +34,8 @@ module.exports = (sequelize, DataTypes) => {
     },
     {
       timestamps: true,
-      createdAt: " order_date",
-      updatedAt: " order_updated",
+      createdAt: "order_date",
+      updatedAt: "order_updated",
     }
   );
 

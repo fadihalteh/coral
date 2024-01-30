@@ -150,6 +150,48 @@ export const getDiscountPlusProducts = async (options: ProductQueryOptions): Pro
   }
 };
 
+export const getTrendyProducts = async (options: ProductQueryOptions): Promise<PaginatedProductList> => {
+  try { const result = await db.products.findAll({
+    attributes: [
+      'id',
+      'name',
+      'sub_title',
+      'price',
+      [Sequelize.fn('SUM', Sequelize.col('OrderItems.quantity')), 'quantity_sold'],
+      [Sequelize.fn('COUNT', Sequelize.col('OrderItems.id')), 'order_count'],
+      [db.sequelize.fn('AVG', db.sequelize.col('Reviews.rating')), 'average_rating'],
+      [db.sequelize.fn('COUNT', db.sequelize.col('Reviews.rating')), 'rating_count'],
+    ],
+    include: [
+      {
+        model: db.ordersItems,
+        as: 'OrderItems',
+        attributes:[]
+      },
+      {
+        model: db.reviews,
+        attributes: [],
+      },
+      {
+        model: db.discounts,
+        attributes: ['percentage'],
+      },
+      {
+        model: db.productsImages,
+        attributes: ['image_url'],
+        limit: 1,
+      },
+    ],
+    group: ['Product.id'],
+
+  })
+    return result;
+  } catch (error) {
+    console.error(error);
+    throw new Error('Internal Server Error');
+  }
+};
+
 export const getPopularProducts = async (options: ProductQueryOptions): Promise<PaginatedProductList> => {
   try {
     const result = await handleRequest(options);

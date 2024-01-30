@@ -18,7 +18,8 @@ GET http://localhost:3000/products?page=1&sortBy=price-low&sortBy=price-high&bra
 
 
 
-
+###
+GET http://localhost:3000/products?categoryId=5
 
 
 

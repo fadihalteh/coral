@@ -868,10 +868,12 @@
 //     res.status(500).json({ error: 'Internal Server Error' });
 //   }
 // };
+
 import { Request, Response } from 'express';
 import * as productService from '../Services/productService';
 import {ProductQueryOptions} from '../Interfaces/productInterface'
 
+//options that can be passed in the query to filter or sort by or for pagination settings. can chose all,none, or mulitple
 export const generateOptions = (req: Request) => {
   return {
     sortBy: req.query.sortBy || 'ratings',
@@ -882,6 +884,7 @@ export const generateOptions = (req: Request) => {
   };
 };
 
+//return all products with given filters and sorting options 
 export const getProducts = async (req: Request, res: Response) => {
   try {
     const options = {
@@ -899,6 +902,7 @@ export const getProducts = async (req: Request, res: Response) => {
   }
 };
 
+//return all products with given filters and sorting options and created in the last 3 months 
 export const getNewArrivals = async (req: Request, res: Response) => {
   try {
     const options = {
@@ -921,6 +925,7 @@ export const getNewArrivals = async (req: Request, res: Response) => {
   }
 };
 
+//return all products with given filters and sorting options and stock_qunatity is 20 or less
 export const getLimitProducts = async (req: Request, res: Response) => {
   try {
     const options = {
@@ -943,6 +948,7 @@ export const getLimitProducts = async (req: Request, res: Response) => {
   }
 };
 
+//return all products with given filters and sorting options and discounted 15% or more
 export const getDiscountPlusProducts = async (req: Request, res: Response) => {
   try {
     const options = {
@@ -959,7 +965,23 @@ export const getDiscountPlusProducts = async (req: Request, res: Response) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 };
+export const getTrendyProducts = async (req: Request, res: Response) => {
+  try {
+    const options = {
+      group: ['id'],
+      attributes: [],
+      include: [],
+      ...generateOptions(req)
+    };
 
+    const result = await productService.getTrendyProducts(options as ProductQueryOptions);
+    res.status(200).json(result);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+//return all products with given filters and sorting options and avg review rating above 4.5
 export const getPopularProducts = async (req: Request, res: Response) => {
   try {
     const options = {
@@ -976,6 +998,7 @@ export const getPopularProducts = async (req: Request, res: Response) => {
   }
 };
 
+//return all products with given filters and sorting options and avg review rating above 4.5 and price 100 or less
 export const handPickedProducts = async (req: Request, res: Response) => {
   try {
     const options = {
@@ -997,7 +1020,7 @@ export const handPickedProducts = async (req: Request, res: Response) => {
   }
 };
 
-
+//return all comprehensive details about a specfic product with all its images , reviews and related products 
 export const getProductDetails = async (req: Request, res: Response): Promise<void> => {
   try {
     const product = await productService.getProductDetails(req.params.product_id);
@@ -1102,62 +1125,62 @@ import db from '../Database/Models/index'
 //     return res.status(500).json({ error: 'Internal Server Error' });
 //   }
 // };
-export const getTrendyProducts = async (req: Request, res: Response) => {
-  try {
-    const options = {
-      group: ['id'],
-      attributes: [],
-      include: [],
-      ...generateOptions(req), // Merge common options
-    };
+// export const getTrendyProducts = async (req: Request, res: Response) => {
+//   try {
+//     const options = {
+//       group: ['id'],
+//       attributes: [],
+//       include: [],
+//       ...generateOptions(req), // Merge common options
+//     };
 
-    const result = await productService.getProducts(options as ProductQueryOptions);
+//     const result = await productService.getProducts(options as ProductQueryOptions);
 
-    const productIds = result.data.map(product => product.id);
+//     const productIds = result.data.map(product => product.id);
 
-    const result2 = await db.ordersItems.findAll({
-      attributes: [
-        'product_id',
-        [db.sequelize.fn('COUNT', db.sequelize.col('*')), 'count'],
-        [db.sequelize.fn('SUM', db.sequelize.col('quantity')), 'total_quantity']
-      ],
-      where: {
-        product_id: {
-          [db.Sequelize.Op.in]: productIds
-        }
-      },
-      group: ['product_id']
-    });
+//     const result2 = await db.ordersItems.findAll({
+//       attributes: [
+//         'product_id',
+//         [db.sequelize.fn('COUNT', db.sequelize.col('*')), 'count'],
+//         [db.sequelize.fn('SUM', db.sequelize.col('quantity')), 'total_quantity']
+//       ],
+//       where: {
+//         product_id: {
+//           [db.Sequelize.Op.in]: productIds
+//         }
+//       },
+//       group: ['product_id']
+//     });
 
-    const mappedResult = result.data.map(product => {
-      const correspondingResult2 = result2.find(r => r.product_id === product.id) || {
-        count: 0,
-        total_quantity: 0
-      };
+//     // const mappedResult = result.data.map(product => {
+//     //   const correspondingResult2 = result2.find(r => r.product_id === product.id) || {
+//     //     count: 0,
+//     //     total_quantity: 0
+//     //   };
+//       // return result1
+//       // return {
+//       //   id: product.id,
+//       //   name: product.name,
+//       //   // Include only necessary properties from result2
+//       //   result2: {
+//       //     count: correspondingResult2.count,
+//       //     total_quantity: correspondingResult2.total_quantity
+//       //   }
+//       // };
+//     // });
 
-      return {
-        id: product.id,
-        name: product.name,
-        // Include only necessary properties from result2
-        result2: {
-          count: correspondingResult2.count,
-          total_quantity: correspondingResult2.total_quantity
-        }
-      };
-    });
+//     // const finalResult = {
+//     //   totalItems: result.totalItems,
+//     //   totalPages: result.totalPages,
+//     //   currentPage: result.currentPage,
+//     //   pageSize: result.pageSize,
+//     //   data: mappedResult
+//     // };
 
-    const finalResult = {
-      totalItems: result.totalItems,
-      totalPages: result.totalPages,
-      currentPage: result.currentPage,
-      pageSize: result.pageSize,
-      data: mappedResult
-    };
-
-    console.log(finalResult);
-    res.status(200).json(finalResult);
-  } catch (error) {
-    console.error(error);
-    return res.status(500).json({ error: 'Internal Server Error' });
-  }
-};
+//     // console.log(finalResult);
+//     res.status(200).json(result);
+//   } catch (error) {
+//     console.error(error);
+//     return res.status(500).json({ error: 'Internal Server Error' });
+//   }
+// };
