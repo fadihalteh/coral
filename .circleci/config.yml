@@ -36,10 +36,16 @@ jobs:
             ssh -o "StrictHostKeyChecking=no" $SSH_USER@$SSH_HOST "cd ~/coral-store/build && pm2 delete coral-store || : && pm2 start index.js --name 'coral-store'"
 workflows:
   build-and-deploy:
-    when:
-      equal: [ master, << pipeline.git.branch >> ]
     jobs:
-      - build
+      - build:
+          filters:
+            branches:
+              only:
+                - master
       - deploy:
           requires:
             - build
+          filters:
+            branches:
+              only:
+                - master
