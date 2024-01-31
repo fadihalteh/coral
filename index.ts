@@ -24,7 +24,6 @@ app.use(cors());
 app.use(express.json())
 app.use('/Uploads', express.static('./Uploads'));
 app.use('/Images',express.static('./src/Images'))
-// app.use('/Images',express.static('./src/images'))
 app.use('/users', usersRoute);
 app.use('/addresses',checkSessionKey,addressesRoute);
 app.use('/reviews',checkSessionKey,reviewsRoute);

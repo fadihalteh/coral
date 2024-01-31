@@ -1,7 +1,7 @@
 import db from '../Database/Models/index';
 import { Op } from 'sequelize';
 import {ProductQueryOptions,ProductDetails,SuggestionResult,Product,PaginatedProductList} from '../Interfaces/productInterface'
-
+export const Sequelize = db.Sequelize;
 
 const commonAttributes = [
   'id',
@@ -10,8 +10,12 @@ const commonAttributes = [
   'price',
   'stock_quantity',
   'createdAt',
-  [db.sequelize.fn('AVG', db.sequelize.col('Reviews.rating')), 'average_rating'],
-  [db.sequelize.fn('COUNT', db.sequelize.col('Reviews.rating')), 'rating_count'],
+  [db.sequelize.literal('(SELECT AVG(Reviews.rating) FROM reviews WHERE reviews.product_id = Product.id)'), 'average_rating'],
+  [db.sequelize.literal('(SELECT COUNT(Reviews.rating) FROM reviews WHERE reviews.product_id = Product.id)'), 'rating_count'],
+  [
+    db.sequelize.literal('CAST((SELECT SUM(`quantity`) FROM `orderItems` WHERE `orderItems`.`product_id` = `Product`.`id`) AS UNSIGNED)'),
+    'quantity_ordered',
+  ],
 ];
 
 const commonInclude = [
@@ -35,18 +39,21 @@ const commonInclude = [
   {
     model: db.categories,
     attributes: ['id','name'],
-  }
+  },
+  {
+    model: db.ordersItems,
+    attributes: [],
+  },
 ];
 
 const commonSortOptions: Record<string, any> = {
   'price-high': [['price', 'DESC']],
   'price-low': [['price', 'ASC']],
-  'ratings': [[db.sequelize.fn('AVG', db.sequelize.col('Reviews.rating')), 'DESC']],
+  'ratings': [[db.sequelize.literal('average_rating'), 'DESC']],
   'latest': [['createdAt', 'DESC']],
-  'popular': [[db.sequelize.fn('AVG', db.sequelize.col('Reviews.rating')), 'DESC']],
+  'popular': [[db.sequelize.literal('quantity_ordered'), 'DESC']],
 };
 
-export const Sequelize = db.Sequelize;
 
 const handleRequest = async (options: ProductQueryOptions,searchInput?:string) => {
   try {
@@ -145,47 +152,6 @@ export const getDiscountPlusProducts = async (options: ProductQueryOptions): Pro
   }
 };
 
-export const getTrendyProducts = async (options: ProductQueryOptions): Promise<PaginatedProductList> => {
-  try { const result = await db.products.findAll({
-    attributes: [
-      'id',
-      'name',
-      'sub_title',
-      'price',
-      [Sequelize.fn('SUM', Sequelize.col('OrderItems.quantity')), 'quantity_sold'],
-      [Sequelize.fn('COUNT', Sequelize.col('OrderItems.id')), 'order_count'],
-      [db.sequelize.fn('AVG', db.sequelize.col('Reviews.rating')), 'average_rating'],
-      [db.sequelize.fn('COUNT', db.sequelize.col('Reviews.rating')), 'rating_count'],
-    ],
-    include: [
-      {
-        model: db.ordersItems,
-        as: 'OrderItems',
-        attributes:[]
-      },
-      {
-        model: db.reviews,
-        attributes: [],
-      },
-      {
-        model: db.discounts,
-        attributes: ['percentage'],
-      },
-      {
-        model: db.productsImages,
-        attributes: ['image_url'],
-        limit: 1,
-      },
-    ],
-    group: ['Product.id'],
-
-  })
-    return result;
-  } catch (error) {
-    throw new Error('Internal Server Error');
-  }
-};
-
 export const getPopularProducts = async (options: ProductQueryOptions): Promise<PaginatedProductList> => {
   try {
     const result = await handleRequest(options);
@@ -197,6 +163,16 @@ export const getPopularProducts = async (options: ProductQueryOptions): Promise<
 
 export const handPickedProducts = async (options: ProductQueryOptions): Promise<PaginatedProductList> => {
   try {
+    const result = await handleRequest(options);
+    return result;
+  } catch (error) {
+    throw new Error('Internal Server Error');
+  }
+};
+
+export const getTrendyProducts = async (options: ProductQueryOptions): Promise<PaginatedProductList> => {
+  try {
+    options.sortBy='popular'
     const result = await handleRequest(options);
     return result;
   } catch (error) {
