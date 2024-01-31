@@ -15,12 +15,12 @@ Content-Type: application/json
   "payment_method": "Credit Card"
 }
 ###
-GET http://localhost:3000/orders/info/11
-Authorization: u07bkqwce3u7ffvspmxp
+GET http://localhost:3000/orders/info/380
+Authorization: y06e3lmhet09xcguy8nj
 
 ###
 GET http://localhost:3000/orders
-Authorization: u07bkqwce3u7ffvspmxp
+Authorization: y06e3lmhet09xcguy8nj
 ###
 
 
@@ -36,7 +36,7 @@ Authorization: zG3vLifO2bXQHANGTiZNCdA43SZZDe
 
 
 POST http://158.176.7.102:3000/orders
-Authorization: 2vE1KGZDV38vw6avdC6OER4HL5OVLl
+Authorization: Zxc3MTLHf08f8Fd8GBrc
 Content-Type: application/json
 
 {
@@ -53,12 +53,12 @@ Content-Type: application/json
   "payment_method": "Credit Card"
 }
 ###
-GET http://158.176.7.102:3000/orders/info/1
-Authorization: vpunzi812k7dwobzuj92
+GET http://158.176.7.102:3000/orders/info/1002
+Authorization: Zxc3MTLHf08f8Fd8GBrc
 
 ###
 GET http://158.176.7.102:3000/orders
-Authorization: 2vE1KGZDV38vw6avdC6OER4HL5OVLl
+Authorization: Zxc3MTLHf08f8Fd8GBrc
 ###
 
 
