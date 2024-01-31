@@ -254,7 +254,7 @@ export const deleteUserAccount = async (
 
 export const uploadProfileImage = async (session: Session,file): Promise<boolean | ErrorResponse> => {
   try {
-    const updateImage = await db.users.update({ profile_image:`uploads/${file.filename}`}, { where: { id: session.user_id } });
+    const updateImage = await db.users.update({ profile_image:`Uploads/${file.filename}`}, { where: { id: session.user_id } });
     return true;
   } catch (error: any) {
     if (error.code) {
