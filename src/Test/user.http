@@ -111,11 +111,11 @@ Authorization:YrDWOklpKkaWl2OUTcH9lLTk5pacUc
 ###
 PUT http://158.176.7.102:3000/users/change-password
 Content-Type: application/json
-Authorization:1X63hhGJXtAvMFNS05ZD
+Authorization:GuVO24udZC3R7ufHYxaz
 
 {
   "currentPassword":"Mh&55r58r55",
-  "newPassword":"Mh&55r58r55444444"
+  "newPassword":"Mhwww&55r58r55444444"
 }
 
 ###

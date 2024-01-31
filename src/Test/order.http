@@ -36,15 +36,14 @@ Authorization: zG3vLifO2bXQHANGTiZNCdA43SZZDe
 
 
 POST http://158.176.7.102:3000/orders
-Authorization: 0axdBIkuqBZltVkbwGkq
+Authorization: 2vE1KGZDV38vw6avdC6OER4HL5OVLl
 Content-Type: application/json
 
 {
   "order_address": {
-    "first_name": "fdsf",
-    "last_name": "lafdsfe",
+    "full_name": "ahamad",
     "city": "Berlin",
-    "phone": "2565892",
+    "phone": "2563335892",
     "street": "stugt St",
     "country": "Germany",
     "postal_code": "59784",
@@ -55,11 +54,11 @@ Content-Type: application/json
 }
 ###
 GET http://158.176.7.102:3000/orders/info/1
-Authorization: zG3vLifO2bXQHANGTiZNCdA43SZZDe
+Authorization: vpunzi812k7dwobzuj92
 
 ###
 GET http://158.176.7.102:3000/orders
-Authorization: eb9azj7s25ua77kyinkm
+Authorization: 2vE1KGZDV38vw6avdC6OER4HL5OVLl
 ###
 
 

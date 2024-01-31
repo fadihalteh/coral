@@ -897,7 +897,6 @@ export const getProducts = async (req: Request, res: Response) => {
     const result = await productService.getProducts(options as ProductQueryOptions);
     res.status(200).json(result);
   } catch (error) {
-    console.error(error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 };
@@ -920,7 +919,6 @@ export const getNewArrivals = async (req: Request, res: Response) => {
     const result = await productService.getNewArrivals(options as ProductQueryOptions);
     res.status(200).json(result);
   } catch (error) {
-    console.error(error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 };
@@ -943,7 +941,6 @@ export const getLimitProducts = async (req: Request, res: Response) => {
     const result = await productService.getLimitProducts(options as ProductQueryOptions);
     res.status(200).json(result);
   } catch (error) {
-    console.error(error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 };
@@ -961,7 +958,6 @@ export const getDiscountPlusProducts = async (req: Request, res: Response) => {
     const result = await productService.getDiscountPlusProducts(options as ProductQueryOptions);
     res.status(200).json(result);
   } catch (error) {
-    console.error(error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 };
@@ -977,7 +973,6 @@ export const getTrendyProducts = async (req: Request, res: Response) => {
     const result = await productService.getTrendyProducts(options as ProductQueryOptions);
     res.status(200).json(result);
   } catch (error) {
-    console.error(error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 };
@@ -993,7 +988,6 @@ export const getPopularProducts = async (req: Request, res: Response) => {
     const result = await productService.getPopularProducts(options as ProductQueryOptions);
     res.status(200).json(result);
   } catch (error) {
-    console.error(error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 };
@@ -1015,7 +1009,6 @@ export const handPickedProducts = async (req: Request, res: Response) => {
     const result = await productService.handPickedProducts(options as ProductQueryOptions);
     res.status(200).json(result);
   } catch (error) {
-    console.error(error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 };

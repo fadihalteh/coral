@@ -93,7 +93,6 @@ const handleRequest = async (options: ProductQueryOptions,searchInput?:string) =
       data: result.slice((options.page - 1) * options.pageSize, (options.page - 1) * options.pageSize + options.pageSize),
     };
   } catch (error) {
-    console.error(error);
     throw new Error('Internal Server Error');
   }
 };
@@ -103,7 +102,6 @@ export const getNewArrivals = async (options: ProductQueryOptions): Promise<Pagi
     const result = await handleRequest(options);
     return result;
   } catch (error) {
-    console.error(error);
     throw new Error('Internal Server Error');
   }
 };
@@ -113,7 +111,6 @@ export const getProducts = async (options: ProductQueryOptions): Promise<Paginat
     const result = await handleRequest(options);
     return result;
   } catch (error) {
-    console.error(error);
     throw new Error('Internal Server Error');
   }
 };
@@ -123,7 +120,6 @@ export const getLimitProducts = async (options: ProductQueryOptions): Promise<Pa
     const result = await handleRequest(options);
     return result;
   } catch (error) {
-    console.error(error);
     throw new Error('Internal Server Error');
   }
 };
@@ -145,7 +141,6 @@ export const getDiscountPlusProducts = async (options: ProductQueryOptions): Pro
     const result = await handleRequest({ ...options, include });
     return result;
   } catch (error) {
-    console.error(error);
     throw new Error('Internal Server Error');
   }
 };
@@ -187,7 +182,6 @@ export const getTrendyProducts = async (options: ProductQueryOptions): Promise<P
   })
     return result;
   } catch (error) {
-    console.error(error);
     throw new Error('Internal Server Error');
   }
 };
@@ -197,7 +191,6 @@ export const getPopularProducts = async (options: ProductQueryOptions): Promise<
     const result = await handleRequest(options);
     return result;
   } catch (error) {
-    console.error(error);
     throw new Error('Internal Server Error');
   }
 };
@@ -207,7 +200,6 @@ export const handPickedProducts = async (options: ProductQueryOptions): Promise<
     const result = await handleRequest(options);
     return result;
   } catch (error) {
-    console.error(error);
     throw new Error('Internal Server Error');
   }
 };
@@ -217,7 +209,6 @@ export const getSearchResults  = async (options: ProductQueryOptions,searchInput
     const result = await handleRequest(options,searchInput);
     return result;
   } catch (error) {
-    console.error(error);
     throw new Error('Internal Server Error');
   }
 };
@@ -246,7 +237,6 @@ export const getSuggestions  = async (searchInput):Promise<SuggestionResult> => 
     return { products, brands };
   
   } catch (error) {
-    console.error(error);
     throw new Error('Internal Server Error');
   }}
 export const getProductDetails = async (requested_id):Promise<ProductDetails> => {

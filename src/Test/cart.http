@@ -4,7 +4,7 @@ Authorization:uYn82mfG6X0gIDtSIhfN5wBcq697Cz
 ###
 POST http://localhost:3000/shopping-cart/add
 Content-Type: application/json
-Authorization:0axdBIkuqBZltVkbwGkq
+Authorization:vpunzi812k7dwobzuj92
 
  
 {
@@ -42,12 +42,12 @@ Authorization:xav3bdotvybcjhfl4ux5
 ###
 POST http://158.176.7.102:3000/shopping-cart/add
 Content-Type: application/json
-Authorization:0axdBIkuqBZltVkbwGkq
+Authorization:2vE1KGZDV38vw6avdC6OER4HL5OVLl
 
  
 {
-  "product_id": 3,
-  "quantity": 100
+  "product_id": 1,
+  "quantity": 20
 }
 ###
 PUT http://158.176.7.102:3000/shopping-cart/update
