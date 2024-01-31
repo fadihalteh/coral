@@ -20,7 +20,7 @@ import cors from 'cors';
 const app = express();
 const port = process.env.PORT || 3000;
 app.use(cors());
-app.use(enforce.HTTPS());
+// app.use(enforce.HTTPS());
 app.use(express.json())
 app.use('/Uploads', express.static('./Uploads'));
 app.use('/Images',express.static('./src/Images'))
