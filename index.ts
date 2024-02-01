@@ -17,7 +17,11 @@ import {checkSessionKey} from './src/Middlewares/checkSession';
 import cors from 'cors';
 const app = express();
 const port = process.env.PORT || 3000;
-app.use(cors());
+app.use(cors({
+  origin: '*',
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  credentials: true, 
+}));
 app.use(express.json())
 app.use('/Uploads', express.static('./Uploads'));
 app.use('/Images',express.static('./src/Images'))

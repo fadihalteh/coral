@@ -4,7 +4,7 @@ Authorization:n7ctob8gb6t2ix35geid
 ###
 POST http://localhost:3000/shopping-cart/add
 Content-Type: application/json
-Authorization:n7ctob8gb6t2ix35geid
+Authorization:xehRHkw969uLGwERW7DfyeHJ5ngjTq
 
  
 {
@@ -42,7 +42,7 @@ Authorization:Zxc3MTLHf08f8Fd8GBrc
 ###
 POST http://158.176.7.102:3000/shopping-cart/add
 Content-Type: application/json
-Authorization:Zxc3MTLHf08f8Fd8GBrc
+Authorization:xehRHkw969uLGwERW7DfyeHJ5ngjTq
 
  
 {
