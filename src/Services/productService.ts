@@ -264,11 +264,11 @@ export const getProductDetails = async (requested_id):Promise<ProductDetails> =>
           },
           {
             model: db.brands,
-            attributes: ['name']
+            attributes: ['name','id']
           },
           {
             model: db.categories,
-            attributes: ['name']
+            attributes: ['name','id']
           },
         
         ],
