@@ -10,17 +10,14 @@ import wishlistRoute from './src/Routers/wishlistRoute';
 import ordersRoute from './src/Routers/ordersRoute';
 import shoppingCartRoute from './src/Routers/shoppingCartRoute';
 import adminRoutes from './src/Routers/adminRoutes';
-import enforce from 'express-sslify';
 import {checkAdmin} from './src/Middlewares/checkAdmin';
 
 import {checkSessionKey} from './src/Middlewares/checkSession';
 
 import cors from 'cors';
-//tset
 const app = express();
 const port = process.env.PORT || 3000;
 app.use(cors());
-// app.use(enforce.HTTPS());
 app.use(express.json())
 app.use('/Uploads', express.static('./Uploads'));
 app.use('/Images',express.static('./src/Images'))
